@@ -1,0 +1,50 @@
+package com.sedymov.aviasales.presentation.search.citiesselection.view
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.sedymov.aviasales.R
+import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
+import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
+import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
+import com.sedymov.aviasales.di.ComponentStorage
+import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithTitle
+import com.sedymov.aviasales.presentation.search.citiesselection.presenter.CitiesSelectionMoxyPresenter
+import com.sedymov.aviasales.presentation.search.container.presenter.SearchContainerMoxyPresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
+import javax.inject.Inject
+
+class CitiesSelectionFragment: BaseFragmentWithTitle(), CitiesSelectionMoxyView {
+
+    @Inject
+    internal lateinit var mLoggingInteractor: LoggingInteractor
+
+    @Inject
+    internal lateinit var mSearchRouter: SearchRouter
+
+    @InjectPresenter
+    internal lateinit var mPresenter: CitiesSelectionMoxyPresenter
+
+    @ProvidePresenter
+    internal fun providePresenter(): CitiesSelectionMoxyPresenter = CitiesSelectionMoxyPresenter(mLoggingInteractor, mSearchRouter)
+
+    override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View =
+        inflater.inflate(R.layout.fragment_cities_selection, container, false)
+
+    companion object {
+
+        fun newInstance(): CitiesSelectionFragment {
+            return CitiesSelectionFragment().apply {
+                arguments = Bundle()
+            }
+        }
+    }
+}

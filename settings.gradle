@@ -1,2 +1,2 @@
-include ':app'
+include ':app', 'aviasales-demo-core'
 rootProject.name = "aviasales-demo"

@@ -11,6 +11,12 @@ android {
         jvmTarget = "1.8"
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
     defaultConfig {
         applicationId "com.sedymov.aviasales"
         minSdkVersion 21
@@ -19,12 +25,27 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
     }
 
     buildTypes {
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            minifyEnabled false
+            debuggable true
         }
     }
 }
@@ -50,6 +71,10 @@ dependencies {
     implementation support.appCompat
 
     implementation androidx.corectx
+
+    implementation cicerone
+
+    implementation project(aviasales_demo_core)
 
     testImplementation junit.junit
     testImplementation junit.assertJ
