@@ -8,12 +8,11 @@ import com.sedymov.aviasales.R
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
-import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.di.ComponentStorage
 import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithTitle
 import com.sedymov.aviasales.presentation.search.citiesselection.presenter.CitiesSelectionMoxyPresenter
-import com.sedymov.aviasales.presentation.search.container.presenter.SearchContainerMoxyPresenter
+import com.sedymov.aviasales.utils.platform.safeClickListener
 import kotlinx.android.synthetic.main.fragment_cities_selection.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -53,16 +52,11 @@ class CitiesSelectionFragment: BaseFragmentWithTitle(), CitiesSelectionMoxyView 
     ): View =
         inflater.inflate(R.layout.fragment_cities_selection, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        searchCitiesButton.setOnClickListener { mPresenter.onSearchCitiesButtonClicked() }
-    }
-
     override fun onResume() {
         super.onResume()
 
         mPresenter.onInputChanges(startCitySearchView.getInputListener(), destinationCitySearchView.getInputListener())
+        mPresenter.onSearchCitiesButtonClicks(searchCitiesButton.safeClickListener())
     }
 
     companion object {

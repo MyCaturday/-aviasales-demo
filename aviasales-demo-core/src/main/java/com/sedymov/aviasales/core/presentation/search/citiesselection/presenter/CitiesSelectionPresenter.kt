@@ -19,9 +19,23 @@ class CitiesSelectionPresenter(
 
     override val mLoggingTag: String = "CitiesSelectionPresenter"
 
-    fun onSearchCitiesButtonClicked() {
+    fun onSearchCitiesButtonClicks(clicksListener: Observable<Any>) {
+
+        clicksListener
+            .subscribe(::onSearchButtonClicked, ::onSearchButtonClickFailure)
+            .unsubscribeOnDestroy()
+    }
+
+    private fun onSearchButtonClicked(any: Any) {
 
         log.v("onSearchCitiesButtonClicked")
+    }
+
+    private fun onSearchButtonClickFailure(t: Throwable) {
+
+        log.e(t)
+        mMessagingInteractor.showErrorMessage(t.localizedMessage)
+        mView.setSearchButtonEnabled(false)
     }
 
     fun onInputChanges(startCityListener: Observable<String>, destinationCityListener: Observable<String>) {

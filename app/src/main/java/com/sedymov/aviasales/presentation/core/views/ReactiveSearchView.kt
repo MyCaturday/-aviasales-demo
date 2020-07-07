@@ -9,16 +9,12 @@ import android.widget.LinearLayout
 import com.sedymov.aviasales.utils.platform.hideKeyboard
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.sedymov.aviasales.R
+import com.sedymov.aviasales.utils.platform.SEARCH_TIMER_DELAY_MILLISECONDS
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 class ReactiveSearchView : LinearLayout {
-
-    private companion object {
-
-        private const val SEARCH_TIMER_DELAY_MILLISECONDS = 128L
-    }
 
     lateinit var searchField: EditText
     private var mainView: View? = null

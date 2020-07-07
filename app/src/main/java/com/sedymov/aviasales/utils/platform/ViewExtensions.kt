@@ -9,7 +9,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxbinding2.view.RxView
+import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
+fun View.safeClickListener(): Observable<Any> = RxView.clicks(this).debounce(VIEW_CLICK_DELAY, TimeUnit.MILLISECONDS)
 
 fun ViewGroup.inflate(layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
