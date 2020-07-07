@@ -4,6 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -71,6 +72,8 @@ dependencies {
     implementation support.appCompat
 
     implementation androidx.corectx
+    implementation androidx.recyclerView
+    implementation androidx.cardView
 
     implementation cicerone
 
