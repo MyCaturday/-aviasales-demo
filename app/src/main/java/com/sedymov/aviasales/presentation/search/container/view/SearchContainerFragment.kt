@@ -73,7 +73,9 @@ class SearchContainerFragment : BaseFragmentWithOnBackPressedListener(), SearchC
     companion object {
 
         fun newInstance(): SearchContainerFragment {
+
             return SearchContainerFragment().apply {
+
                 arguments = Bundle()
             }
         }

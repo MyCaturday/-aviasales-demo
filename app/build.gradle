@@ -69,11 +69,18 @@ dependencies {
     implementation rxjava2.rxAndroid
     implementation rxjava2.rxBinding
 
-    implementation support.appCompat
+    implementation squareup.retrofit2
+    implementation squareup.gson
+    implementation squareup.rxjava2adapter
+    implementation squareup.loggingInterceptor
 
+    implementation androidx.appCompat
+    implementation androidx.design
     implementation androidx.corectx
     implementation androidx.recyclerView
     implementation androidx.cardView
+    implementation androidx.constraintLayout
+    implementation androidx.coordinatorLayout
 
     implementation cicerone
 

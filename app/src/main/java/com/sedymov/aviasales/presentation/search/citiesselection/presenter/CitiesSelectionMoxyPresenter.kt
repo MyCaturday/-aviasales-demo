@@ -25,17 +25,22 @@ class CitiesSelectionMoxyPresenter(
 
     private inline fun getPresenter() = mPresenter as CitiesSelectionPresenter
 
-    override fun setTitle(title: String) = viewState.setTitle(title)
+    fun moveBack() = getPresenter().moveBack()
 
     override fun setSearchButtonEnabled(isEnabled: Boolean) = viewState.setSearchButtonEnabled(isEnabled)
+
+    fun onStartCityButtonClicks(clicksListener: Observable<Any>) {
+
+        getPresenter().onStartCityButtonClicks(clicksListener)
+    }
 
     fun onSearchCitiesButtonClicks(clicksListener: Observable<Any>) {
 
         getPresenter().onSearchCitiesButtonClicks(clicksListener)
     }
 
-    fun onInputChanges(startCityListener: Observable<String>, destinationCityListener: Observable<String>) {
-
-        getPresenter().onInputChanges(startCityListener, destinationCityListener)
-    }
+//    fun onInputChanges(startCityListener: Observable<String>, destinationCityListener: Observable<String>) {
+//
+//        getPresenter().onInputChanges(startCityListener, destinationCityListener)
+//    }
 }

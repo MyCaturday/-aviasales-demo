@@ -4,8 +4,6 @@ dependencies {
 
     implementation kotlinStdlib
 
-    implementation gson.gson
-
     implementation rxjava2.rxjava
     implementation rxjava2.rxkotlin
 

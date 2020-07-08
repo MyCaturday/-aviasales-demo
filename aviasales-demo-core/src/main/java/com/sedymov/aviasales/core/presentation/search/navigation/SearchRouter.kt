@@ -5,4 +5,6 @@ interface SearchRouter {
     fun moveBack()
 
     fun moveToCitiesSelection()
+
+    fun moveToStartCitySelectionScreen()
 }

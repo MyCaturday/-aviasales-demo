@@ -9,4 +9,6 @@ class SearchRouterImpl(private val router: Router): SearchRouter {
     override fun moveBack() = router.exit()
 
     override fun moveToCitiesSelection() = router.newRootScreen(Screens.CitiesSelectionScreen())
+
+    override fun moveToStartCitySelectionScreen() = router.navigateTo(Screens.StartCitySelectionScreen())
 }

@@ -10,7 +10,7 @@ import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.di.ComponentStorage
-import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithTitle
+import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPressedListener
 import com.sedymov.aviasales.presentation.search.citiesselection.presenter.CitiesSelectionMoxyPresenter
 import com.sedymov.aviasales.utils.platform.safeClickListener
 import kotlinx.android.synthetic.main.fragment_cities_selection.*
@@ -18,7 +18,7 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
-class CitiesSelectionFragment: BaseFragmentWithTitle(), CitiesSelectionMoxyView {
+class CitiesSelectionFragment: BaseFragmentWithOnBackPressedListener(), CitiesSelectionMoxyView {
 
     @Inject
     internal lateinit var mLoggingInteractor: LoggingInteractor
@@ -55,14 +55,24 @@ class CitiesSelectionFragment: BaseFragmentWithTitle(), CitiesSelectionMoxyView 
     override fun onResume() {
         super.onResume()
 
-        mPresenter.onInputChanges(startCitySearchView.getInputListener(), destinationCitySearchView.getInputListener())
+       // mPresenter.onStartCityClicks(startCitySearchView.safeClickListener())
+        //mPresenter.onInputChanges(startCitySearchView.getInputListener(), destinationCitySearchView.getInputListener())
+        mPresenter.onStartCityButtonClicks(startCityButton.safeClickListener())
         mPresenter.onSearchCitiesButtonClicks(searchCitiesButton.safeClickListener())
+    }
+
+    override fun onBackPressed(): Boolean {
+
+        mPresenter.moveBack()
+        return true
     }
 
     companion object {
 
         fun newInstance(): CitiesSelectionFragment {
+
             return CitiesSelectionFragment().apply {
+
                 arguments = Bundle()
             }
         }

@@ -1,8 +1,8 @@
 package com.sedymov.aviasales.core.presentation.search.citiesselection.view
 
-import com.sedymov.aviasales.core.presentation.base.view.BaseViewWithTitle
+import com.sedymov.aviasales.core.presentation.base.view.BaseView
 
-interface CitiesSelectionView : BaseViewWithTitle {
+interface CitiesSelectionView : BaseView {
 
     fun setSearchButtonEnabled(isEnabled: Boolean)
 }

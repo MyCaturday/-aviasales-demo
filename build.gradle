@@ -10,10 +10,14 @@ buildscript {
             rxandroid_version: "2.1.0",
             rxbinding_version: "2.2.0",
             rxkotlin_version : "2.4.0",
-            gson_version     : "2.8.6",
+            retrofit_version : '2.9.0',
+            okhttp_version   : '4.7.2',
+            material_version : "1.1.0",
             appcompat_version: "1.1.0",
             recyclerview_version :'1.1.0',
             cardview_version : "1.0.0",
+            coordinator_layout_version : "1.1.0",
+            constraint_layout_version : "1.1.3",
             corectx_version  : '1.3.0',
             cicerone_version : "5.1.1",
             junit_version    : "4.13",
@@ -41,20 +45,22 @@ buildscript {
             rxBinding: "com.jakewharton.rxbinding2:rxbinding:$versions.rxbinding_version",
     ]
 
-    ext.gson = [
-
-            gson: "com.google.code.gson:gson:$versions.gson_version"
-    ]
-
-    ext.support = [
-            appCompat: "androidx.appcompat:appcompat:$versions.appcompat_version"
+    ext.squareup = [
+            retrofit2: "com.squareup.retrofit2:retrofit:$versions.retrofit_version",
+            gson: "com.squareup.retrofit2:converter-gson:$versions.retrofit_version",
+            rxjava2adapter: "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit_version",
+            loggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$versions.okhttp_version"
     ]
 
     ext.androidx = [
 
+            appCompat: "androidx.appcompat:appcompat:$versions.appcompat_version",
+            design: "com.google.android.material:material:$versions.material_version",
             corectx: "androidx.core:core-ktx:$versions.corectx_version",
             recyclerView: "androidx.recyclerview:recyclerview:$versions.recyclerview_version",
             cardView: "androidx.cardview:cardview:$versions.cardview_version",
+            constraintLayout: "androidx.constraintlayout:constraintlayout:$versions.constraint_layout_version",
+            coordinatorLayout: "androidx.coordinatorlayout:coordinatorlayout:$versions.coordinator_layout_version"
     ]
 
     ext.cicerone = "ru.terrakok.cicerone:cicerone:$versions.cicerone_version"

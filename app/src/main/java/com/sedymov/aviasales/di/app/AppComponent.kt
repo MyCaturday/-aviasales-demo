@@ -7,6 +7,7 @@ import dagger.Component
 @PerApplication
 @Component(modules = [
     AppModule::class,
+    ApiModule::class,
     LoggingModule::class,
     MessagingModule::class,
     RxModule::class

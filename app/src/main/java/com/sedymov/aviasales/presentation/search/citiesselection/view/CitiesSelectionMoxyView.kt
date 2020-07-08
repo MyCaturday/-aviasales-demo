@@ -1,9 +1,9 @@
 package com.sedymov.aviasales.presentation.search.citiesselection.view
 
-import com.sedymov.aviasales.presentation.base.view.BaseMoxyViewWithTitle
+import com.sedymov.aviasales.presentation.base.view.BaseMoxyView
 import moxy.viewstate.strategy.alias.AddToEndSingle
 
-interface CitiesSelectionMoxyView : BaseMoxyViewWithTitle {
+interface CitiesSelectionMoxyView : BaseMoxyView {
 
     @AddToEndSingle
     fun setSearchButtonEnabled(isEnabled: Boolean)
