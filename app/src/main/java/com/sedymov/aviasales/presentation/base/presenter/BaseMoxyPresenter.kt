@@ -18,8 +18,8 @@ abstract class BaseMoxyPresenter<V : BaseMoxyView> : MvpPresenter<V>(), BaseView
         mPresenter.onCreate()
     }
 
-    override fun destroyView(view: V) {
-        super.destroyView(view)
+    override fun onDestroy() {
+        super.onDestroy()
         mPresenter.onDestroy()
     }
 }
