@@ -4,6 +4,7 @@ import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
+import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenter
 import com.sedymov.aviasales.core.presentation.base.view.BaseView
 import com.sedymov.aviasales.core.presentation.search.cityselection.startcityselection.presenter.StartCitySelectionPresenter
@@ -28,10 +29,19 @@ class StartCitySelectionMoxyPresenter(
     private inline fun getPresenter(): StartCitySelectionPresenter =
         mPresenter as StartCitySelectionPresenter
 
+    override fun showCities(cities: List<City>) = viewState.showCities(cities)
+
+    override fun showLoading(show: Boolean) = viewState.showLoading(show)
+
     fun moveBack() = getPresenter().moveBack()
 
     fun onInputChanges(findViewListener: Observable<String>) {
 
         getPresenter().onInputChanges(findViewListener)
+    }
+
+    fun onCitySelected(city: City) {
+
+        getPresenter().onCitySelected(city)
     }
 }

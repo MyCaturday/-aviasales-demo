@@ -9,6 +9,8 @@ import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithL
 import com.sedymov.aviasales.core.presentation.search.cityselection.startcityselection.view.StartCitySelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import io.reactivex.Observable
+import io.reactivex.Single
+import java.util.*
 
 class StartCitySelectionPresenter(
     loggingInteractor: LoggingInteractor,
@@ -23,16 +25,35 @@ class StartCitySelectionPresenter(
     fun onInputChanges(findViewListener: Observable<String>) {
 
         findViewListener
-            .switchMapSingle { mSearchCitiesInteractor.getCities(it) }
-            .subscribeOn(mRxSchedulers.ioScheduler)
             .observeOn(mRxSchedulers.mainThreadScheduler)
+            .doOnNext { mView.showLoading(true) }
+            .observeOn(mRxSchedulers.ioScheduler)
+            .switchMapSingle { handleInterruptedException(it) }
+            .observeOn(mRxSchedulers.mainThreadScheduler)
+            .doOnError { mView.showLoading(false) }
+            .doAfterNext { mView.showLoading(false) }
             .subscribe(::onSearchInput, ::onSearchInputFailure )
             .unsubscribeOnDestroy()
     }
 
+    private fun handleInterruptedException(searchString: String): Single<List<City>> =
+        mSearchCitiesInteractor
+            .getCities(searchString)
+            .onErrorResumeNext { t : Throwable ->
+
+                if (t is java.io.InterruptedIOException) {
+
+                    Single.just(ArrayList<City>())
+                }
+                else {
+
+                    Single.error(t)
+                }
+            }
+
     private fun onSearchInput(cities: List<City>) {
 
-        log.v("onSearchInput")
+        showCities(cities)
     }
 
     private fun onSearchInputFailure(t: Throwable) {
@@ -41,7 +62,13 @@ class StartCitySelectionPresenter(
         mMessagingInteractor.showErrorMessage(t.localizedMessage)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun showCities(cities: List<City>) {
+
+        mView.showCities(cities)
+    }
+
+    fun onCitySelected(city: City) {
+
+        log.v("onCitySelected ${city.city}")
     }
 }

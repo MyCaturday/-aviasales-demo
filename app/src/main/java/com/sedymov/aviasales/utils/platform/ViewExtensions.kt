@@ -25,8 +25,17 @@ fun View.setGone() {
     visibility = View.GONE
 }
 
+fun View.setInvisible() {
+    visibility = View.INVISIBLE
+}
+
 fun View.setVisible() {
     visibility = View.VISIBLE
+}
+
+fun View.setVisible(visible: Boolean) {
+
+    if (visible) setVisible() else setInvisible()
 }
 
 fun View.hideKeyboard() {

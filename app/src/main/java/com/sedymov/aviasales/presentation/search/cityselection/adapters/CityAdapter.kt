@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sedymov.aviasales.R
+import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.utils.platform.checkPositionAndRun
 import com.sedymov.aviasales.utils.platform.inflate
 
-typealias CityOnClickListener = (city: String) -> Unit
+typealias CityOnClickListener = (city: City) -> Unit
 
 class CityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     internal val cityNameTv: TextView = itemView.findViewById(R.id.cityNameTextView)
@@ -17,7 +18,7 @@ class CityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 class CityAdapter(
     private val context: Context,
-    private val cities: List<String>,
+    private val cities: List<City>,
     private val itemClickListener: CityOnClickListener
 ) : RecyclerView.Adapter<CityViewHolder>() {
 
@@ -45,7 +46,7 @@ class CityAdapter(
 
             with(holder) {
 
-                cityNameTv.text = city
+                cityNameTv.text = city.city
             }
         }
     }
