@@ -1,11 +1,5 @@
 package com.sedymov.aviasales.core.presentation.search.cityselection.startcityselection.view
 
-import com.sedymov.aviasales.core.models.search.City
-import com.sedymov.aviasales.core.presentation.base.view.BaseView
+import com.sedymov.aviasales.core.presentation.search.cityselection.base.view.BaseCitySelectionView
 
-interface StartCitySelectionView : BaseView {
-
-    fun showCities(cities: List<City>)
-
-    fun showLoading(show: Boolean)
-}
+interface StartCitySelectionView : BaseCitySelectionView

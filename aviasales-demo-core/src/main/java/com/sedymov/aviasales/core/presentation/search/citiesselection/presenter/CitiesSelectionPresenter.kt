@@ -42,6 +42,26 @@ class CitiesSelectionPresenter(
         mView.setSearchButtonEnabled(false)
     }
 
+    fun onDestinationCityButtonClicks(clicksListener: Observable<Any>) {
+
+        clicksListener
+            .observeOn(mRxSchedulers.mainThreadScheduler)
+            .subscribe(::onDestinationCityClicked, ::onDestinationCityClickFailure)
+            .unsubscribeOnDestroy()
+    }
+
+    private fun onDestinationCityClicked(any: Any) {
+
+        mSearchRouter.moveToDestinationCitySelectionScreen()
+    }
+
+    private fun onDestinationCityClickFailure(t: Throwable) {
+
+        log.e(t)
+        mMessagingInteractor.showErrorMessage(t.localizedMessage)
+        mView.setSearchButtonEnabled(false)
+    }
+
     fun onSearchCitiesButtonClicks(clicksListener: Observable<Any>) {
 
         clicksListener

@@ -1,0 +1,5 @@
+package com.sedymov.aviasales.presentation.search.cityselection.destinationcityselection.view
+
+import com.sedymov.aviasales.presentation.search.cityselection.base.view.BaseCitySelectionMoxyView
+
+interface DestinationCitySelectionMoxyView : BaseCitySelectionMoxyView

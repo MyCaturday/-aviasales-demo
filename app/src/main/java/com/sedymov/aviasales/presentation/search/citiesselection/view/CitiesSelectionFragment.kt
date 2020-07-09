@@ -58,6 +58,7 @@ class CitiesSelectionFragment: BaseFragmentWithOnBackPressedListener(), CitiesSe
        // mPresenter.onStartCityClicks(startCitySearchView.safeClickListener())
         //mPresenter.onInputChanges(startCitySearchView.getInputListener(), destinationCitySearchView.getInputListener())
         mPresenter.onStartCityButtonClicks(startCityButton.safeClickListener())
+        mPresenter.onDestinationCityButtonClicks(destinationCityButton.safeClickListener())
         mPresenter.onSearchCitiesButtonClicks(searchCitiesButton.safeClickListener())
     }
 

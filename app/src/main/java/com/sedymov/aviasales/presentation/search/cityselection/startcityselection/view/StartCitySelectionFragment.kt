@@ -19,6 +19,9 @@ import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.di.ComponentStorage
 import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPressedListener
 import com.sedymov.aviasales.presentation.search.cityselection.adapters.CityAdapter
+import com.sedymov.aviasales.presentation.search.cityselection.base.presenter.BaseCitySelectionMoxyPresenter
+import com.sedymov.aviasales.presentation.search.cityselection.base.view.BaseCitySelectionFragment
+import com.sedymov.aviasales.presentation.search.cityselection.base.view.BaseCitySelectionMoxyView
 import com.sedymov.aviasales.presentation.search.cityselection.startcityselection.presenter.StartCitySelectionMoxyPresenter
 import com.sedymov.aviasales.utils.platform.SEARCH_TIMER_DELAY_MILLISECONDS
 import com.sedymov.aviasales.utils.platform.setAsAdapterFor
@@ -29,61 +32,17 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
-class StartCitySelectionFragment: BaseFragmentWithOnBackPressedListener(), StartCitySelectionMoxyView {
+class StartCitySelectionFragment: BaseCitySelectionFragment(), StartCitySelectionMoxyView {
 
-    @Inject
-    internal lateinit var mLoggingInteractor: LoggingInteractor
-
-    @Inject
-    internal lateinit var mMessagingInteractor: MessagingInteractor
-
-    @Inject
-    internal lateinit var mSearchCitiesInteractor: SearchCitiesInteractor
-
-    @Inject
-    internal lateinit var mRxSchedulers: RxSchedulers
-
-    @Inject
-    internal lateinit var mSearchRouter: SearchRouter
+    override val mPresenter: BaseCitySelectionMoxyPresenter<BaseCitySelectionMoxyView> by lazy { mStartCitySelectionMoxyPresenter as BaseCitySelectionMoxyPresenter<BaseCitySelectionMoxyView> }
 
     @InjectPresenter
-    internal lateinit var mPresenter: StartCitySelectionMoxyPresenter
+    internal lateinit var mStartCitySelectionMoxyPresenter: StartCitySelectionMoxyPresenter
 
     @ProvidePresenter
     internal fun providePresenter(): StartCitySelectionMoxyPresenter = StartCitySelectionMoxyPresenter(mLoggingInteractor, mSearchCitiesInteractor, mMessagingInteractor, mSearchRouter, mRxSchedulers)
 
     override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View =
-        inflater.inflate(R.layout.fragment_city_selection, container, false)
-
-    override fun onResume() {
-        super.onResume()
-
-        mPresenter.onInputChanges(citySearch.getInputListener())
-    }
-
-    override fun onBackPressed(): Boolean {
-
-        mPresenter.moveBack()
-        return true
-    }
-
-    override fun showCities(cities: List<City>) {
-
-        activity?.let { context ->
-
-            CityAdapter(context, cities) { city -> mPresenter.onCitySelected(city) }.apply {
-                setAsAdapterFor(recyclerView)
-            }
-        }
-    }
-
-    override fun showLoading(show: Boolean) = progressBar.setVisible(show)
 
     companion object {
 

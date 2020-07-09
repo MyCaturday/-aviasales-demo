@@ -34,6 +34,11 @@ class CitiesSelectionMoxyPresenter(
         getPresenter().onStartCityButtonClicks(clicksListener)
     }
 
+    fun onDestinationCityButtonClicks(clicksListener: Observable<Any>) {
+
+        getPresenter().onDestinationCityButtonClicks(clicksListener)
+    }
+
     fun onSearchCitiesButtonClicks(clicksListener: Observable<Any>) {
 
         getPresenter().onSearchCitiesButtonClicks(clicksListener)

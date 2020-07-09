@@ -7,4 +7,6 @@ interface SearchRouter {
     fun moveToCitiesSelection()
 
     fun moveToStartCitySelectionScreen()
+
+    fun moveToDestinationCitySelectionScreen()
 }
