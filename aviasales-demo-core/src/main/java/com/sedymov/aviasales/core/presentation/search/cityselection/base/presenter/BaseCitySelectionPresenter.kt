@@ -70,6 +70,7 @@ abstract class BaseCitySelectionPresenter<V: BaseCitySelectionView>(
     fun onCitySelected(city: City) {
 
         selectCity(city)
+        mSearchRouter.moveBack()
     }
 
     protected abstract fun selectCity(city: City)

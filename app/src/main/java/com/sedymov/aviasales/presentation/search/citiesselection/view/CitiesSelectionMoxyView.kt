@@ -6,5 +6,11 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 interface CitiesSelectionMoxyView : BaseMoxyView {
 
     @AddToEndSingle
+    fun setStartCityName(name: String)
+
+    @AddToEndSingle
+    fun setDestinationCityName(name: String)
+
+    @AddToEndSingle
     fun setSearchButtonEnabled(isEnabled: Boolean)
 }

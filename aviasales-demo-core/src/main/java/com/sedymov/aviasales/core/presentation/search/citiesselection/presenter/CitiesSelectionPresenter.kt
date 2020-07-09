@@ -3,6 +3,8 @@ package com.sedymov.aviasales.core.presentation.search.citiesselection.presenter
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
+import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
+import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
@@ -13,12 +15,24 @@ import io.reactivex.rxkotlin.Observables
 
 class CitiesSelectionPresenter(
     loggingInteractor: LoggingInteractor,
+    private val mSearchCitiesInteractor: SearchCitiesInteractor,
     private val mMessagingInteractor: MessagingInteractor,
     private val mSearchRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers
 ) : BasePresenterWithLogging<CitiesSelectionView>(loggingInteractor) {
 
     override val mLoggingTag: String = "CitiesSelectionPresenter"
+
+    override fun onCreate() {
+        super.onCreate()
+
+        onCitiesSelection(
+            mSearchCitiesInteractor.onStartCitySelected()
+                .doOnNext { mView.setStartCityName(it.city) },
+            mSearchCitiesInteractor.onDestinationCitySelected()
+                .doOnNext { mView.setDestinationCityName(it.city) }
+        )
+    }
 
     fun moveBack() = mSearchRouter.moveBack()
 
@@ -35,12 +49,7 @@ class CitiesSelectionPresenter(
         mSearchRouter.moveToStartCitySelectionScreen()
     }
 
-    private fun onStartCityClickFailure(t: Throwable) {
-
-        log.e(t)
-        mMessagingInteractor.showErrorMessage(t.localizedMessage)
-        mView.setSearchButtonEnabled(false)
-    }
+    private fun onStartCityClickFailure(t: Throwable) = handleUnknownError(t)
 
     fun onDestinationCityButtonClicks(clicksListener: Observable<Any>) {
 
@@ -55,12 +64,7 @@ class CitiesSelectionPresenter(
         mSearchRouter.moveToDestinationCitySelectionScreen()
     }
 
-    private fun onDestinationCityClickFailure(t: Throwable) {
-
-        log.e(t)
-        mMessagingInteractor.showErrorMessage(t.localizedMessage)
-        mView.setSearchButtonEnabled(false)
-    }
+    private fun onDestinationCityClickFailure(t: Throwable) = handleUnknownError(t)
 
     fun onSearchCitiesButtonClicks(clicksListener: Observable<Any>) {
 
@@ -74,36 +78,33 @@ class CitiesSelectionPresenter(
         log.v("onSearchCitiesButtonClicked")
     }
 
-    private fun onSearchButtonClickFailure(t: Throwable) {
+    private fun onSearchButtonClickFailure(t: Throwable) = handleUnknownError(t)
+
+    private fun onCitiesSelection(startCityListener: Observable<City>, destinationCityListener: Observable<City>) {
+
+        Observables.combineLatest(
+            startCityListener,
+            destinationCityListener
+        ) { startCity, destinationCity ->
+            Pair(startCity, destinationCity)
+        }
+            .subscribeOn(mRxSchedulers.ioScheduler)
+            .observeOn(mRxSchedulers.mainThreadScheduler)
+            .subscribe(::onCitiesSelected, ::onCitiesSelectionFailure )
+            .unsubscribeOnDestroy()
+    }
+
+    private fun onCitiesSelected(cities: Pair<City, City>) {
+
+        mView.setSearchButtonEnabled(true)
+    }
+
+    private fun onCitiesSelectionFailure(t: Throwable) = handleUnknownError(t)
+
+    private fun handleUnknownError(t: Throwable) {
 
         log.e(t)
         mMessagingInteractor.showErrorMessage(t.localizedMessage)
         mView.setSearchButtonEnabled(false)
     }
-
-//    fun onInputChanges(startCityListener: Observable<String>, destinationCityListener: Observable<String>) {
-//
-//        Observables.combineLatest(
-//            startCityListener.startWith(String.Empty),
-//            destinationCityListener.startWith(String.Empty)
-//        ) { startCity, destinationCity ->
-//            isSearchButtonEnabled(startCity, destinationCity)
-//        }
-//            .subscribeOn(mRxSchedulers.ioScheduler)
-//            .observeOn(mRxSchedulers.mainThreadScheduler)
-//            .subscribe(::setSearchButtonEnabled, ::onInputFieldsFailure )
-//            .unsubscribeOnDestroy()
-//    }
-//
-//    private fun isSearchButtonEnabled(startCity: String, destinationCity: String): Boolean =
-//        startCity.isNotBlank() && destinationCity.isNotBlank()
-//
-//    private fun setSearchButtonEnabled(isEnabled: Boolean) = mView.setSearchButtonEnabled(isEnabled)
-//
-//    private fun onInputFieldsFailure(t: Throwable) {
-//
-//        log.e(t)
-//        mMessagingInteractor.showErrorMessage(t.localizedMessage)
-//        mView.setSearchButtonEnabled(false)
-//    }
 }
