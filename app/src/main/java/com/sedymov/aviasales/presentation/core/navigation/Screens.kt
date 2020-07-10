@@ -1,9 +1,11 @@
 package com.sedymov.aviasales.presentation.core.navigation
 
+import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.presentation.search.container.view.SearchContainerFragment
 import com.sedymov.aviasales.presentation.search.citiesselection.view.CitiesSelectionFragment
 import com.sedymov.aviasales.presentation.search.cityselection.destinationcityselection.view.DestinationCitySelectionFragment
 import com.sedymov.aviasales.presentation.search.cityselection.startcityselection.view.StartCitySelectionFragment
+import com.sedymov.aviasales.presentation.search.searchresult.view.SearchResultFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
@@ -26,5 +28,10 @@ object Screens {
     class DestinationCitySelectionScreen : SupportAppScreen() {
 
         override fun getFragment() = DestinationCitySelectionFragment.newInstance()
+    }
+
+    class SearchResultScreen(private val cities: Pair<City, City>) : SupportAppScreen() {
+
+        override fun getFragment() = SearchResultFragment.newInstance(cities)
     }
 }

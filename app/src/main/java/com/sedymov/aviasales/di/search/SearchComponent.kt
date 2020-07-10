@@ -4,6 +4,7 @@ import com.sedymov.aviasales.presentation.search.container.view.SearchContainerF
 import com.sedymov.aviasales.presentation.search.citiesselection.view.CitiesSelectionFragment
 import com.sedymov.aviasales.presentation.search.cityselection.destinationcityselection.view.DestinationCitySelectionFragment
 import com.sedymov.aviasales.presentation.search.cityselection.startcityselection.view.StartCitySelectionFragment
+import com.sedymov.aviasales.presentation.search.searchresult.view.SearchResultFragment
 import dagger.Subcomponent
 
 @PerSearch
@@ -27,4 +28,5 @@ interface SearchComponent {
     fun inject(fragment: CitiesSelectionFragment)
     fun inject(fragment: StartCitySelectionFragment)
     fun inject(fragment: DestinationCitySelectionFragment)
+    fun inject(fragment: SearchResultFragment)
 }

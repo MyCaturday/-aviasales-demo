@@ -23,6 +23,8 @@ class CitiesSelectionPresenter(
 
     override val mLoggingTag: String = "CitiesSelectionPresenter"
 
+    private var mSelectedCities: Pair<City, City>? = null
+
     override fun onCreate() {
         super.onCreate()
 
@@ -69,13 +71,21 @@ class CitiesSelectionPresenter(
     fun onSearchCitiesButtonClicks(clicksListener: Observable<Any>) {
 
         clicksListener
+            .observeOn(mRxSchedulers.mainThreadScheduler)
             .subscribe(::onSearchButtonClicked, ::onSearchButtonClickFailure)
             .unsubscribeOnDestroy()
     }
 
     private fun onSearchButtonClicked(any: Any) {
 
-        log.v("onSearchCitiesButtonClicked")
+        mSelectedCities?.let { cities ->
+
+            mSearchRouter.moveToSearchResult(cities)
+
+        } ?: run {
+
+            mView.setSearchButtonEnabled(false)
+        }
     }
 
     private fun onSearchButtonClickFailure(t: Throwable) = handleUnknownError(t)
@@ -96,6 +106,7 @@ class CitiesSelectionPresenter(
 
     private fun onCitiesSelected(cities: Pair<City, City>) {
 
+        mSelectedCities = cities
         mView.setSearchButtonEnabled(true)
     }
 

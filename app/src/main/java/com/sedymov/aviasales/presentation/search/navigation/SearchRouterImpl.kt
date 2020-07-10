@@ -1,5 +1,6 @@
 package com.sedymov.aviasales.presentation.search.navigation
 
+import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.presentation.core.navigation.Screens
 import ru.terrakok.cicerone.Router
@@ -13,4 +14,6 @@ class SearchRouterImpl(private val router: Router): SearchRouter {
     override fun moveToStartCitySelectionScreen() = router.navigateTo(Screens.StartCitySelectionScreen())
 
     override fun moveToDestinationCitySelectionScreen() = router.navigateTo(Screens.DestinationCitySelectionScreen())
+
+    override fun moveToSearchResult(cities: Pair<City, City>) = router.navigateTo(Screens.SearchResultScreen(cities))
 }
