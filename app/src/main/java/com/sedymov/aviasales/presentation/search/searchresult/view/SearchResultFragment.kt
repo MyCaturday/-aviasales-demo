@@ -72,6 +72,12 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
     override fun drawLine(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>) {
 
+        fun getLinePattern(): List<PatternItem> {
+
+            val gapLengthPx = 25f
+            return listOf(Gap(gapLengthPx), Dot())
+        }
+
         mGoogleMap?.let { googleMap ->
 
             googleMap.addPolyline(
@@ -82,6 +88,8 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
                         LatLng(secondPoint.first, secondPoint.second)
                     )
                     .geodesic(true)
+                    .jointType(JointType.ROUND)
+                    .pattern(getLinePattern())
             )
         }
     }
