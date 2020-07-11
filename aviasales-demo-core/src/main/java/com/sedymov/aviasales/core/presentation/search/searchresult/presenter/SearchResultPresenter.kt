@@ -36,5 +36,7 @@ class SearchResultPresenter(
         val startCityLocation = Pair(mSelectedCities.first.location.lat, mSelectedCities.first.location.lon)
         val destinationCityLocation = Pair(mSelectedCities.second.location.lat, mSelectedCities.second.location.lon)
         mView.drawLine(startCityLocation, destinationCityLocation)
+
+        mView.setPlaneMarker(mSelectedCities.first.location.lat, mSelectedCities.first.location.lon)
     }
 }

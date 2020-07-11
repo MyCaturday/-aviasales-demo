@@ -59,6 +59,18 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
     override fun setMarkerAtDestinationCity(lat: Double, lon: Double, name: String) = setMarkerAt(lat, lon, name)
 
+    override fun setPlaneMarker(lat: Double, lon: Double) {
+
+        mGoogleMap?.let { googleMap ->
+
+            googleMap.addMarker(
+                MarkerOptions()
+                    .position(LatLng(lat, lon))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_plane))
+            )
+        }
+    }
+
     private inline fun setMarkerAt(lat: Double, lon: Double, name: String) {
 
         mGoogleMap?.let { googleMap ->

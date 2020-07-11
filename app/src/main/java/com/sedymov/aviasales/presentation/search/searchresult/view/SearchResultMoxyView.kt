@@ -13,4 +13,7 @@ interface SearchResultMoxyView : BaseMoxyView {
 
     @AddToEndSingle
     fun drawLine(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>)
+
+    @AddToEndSingle
+    fun setPlaneMarker(lat: Double, lon: Double)
 }
