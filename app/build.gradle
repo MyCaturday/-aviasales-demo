@@ -85,6 +85,7 @@ dependencies {
     implementation cicerone
 
     implementation maps
+    implementation mapsUtils
 
     implementation project(aviasales_demo_core)
 
