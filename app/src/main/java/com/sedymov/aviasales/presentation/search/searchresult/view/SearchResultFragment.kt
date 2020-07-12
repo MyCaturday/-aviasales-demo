@@ -1,6 +1,5 @@
 package com.sedymov.aviasales.presentation.search.searchresult.view
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
 import android.os.SystemClock
@@ -80,12 +79,19 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
         mGoogleMap?.let { googleMap ->
 
-            planeMarker = googleMap.addMarker(
-                MarkerOptions()
-                    .position(LatLng(lat, lon))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_plane))
-                    .flat(true)
-            )
+            startLatLng?.let { startLatLng ->
+
+                destinationLatLng?.let { destinationLatLng ->
+
+                    planeMarker = googleMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(lat, lon))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_plane))
+                            .anchor(1.0f, 0.5f)
+                            .flat(true)
+                    )
+                }
+            }
         }
     }
 
@@ -150,8 +156,9 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
                     val handler = Handler()
                     val start = SystemClock.uptimeMillis()
-                    val duration: Long = 30000
+                    val duration: Long = 3000
                     val interpolator: Interpolator = LinearInterpolator()
+                    val animationPeriod = 16L
                     handler.post(object : Runnable {
 
                         override fun run() {
@@ -164,15 +171,26 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
                             val currentLatLng = SphericalUtil.interpolate(startLatLng, destinationLatLng, t.toDouble())
                             planeMarker.position = currentLatLng
 
+                            val nextLatLng = SphericalUtil.interpolate(startLatLng, destinationLatLng, t.toDouble() + animationPeriod)
+
+                            val rotationAngle = calculateBearing(currentLatLng.latitude, currentLatLng.longitude, nextLatLng.latitude, nextLatLng.longitude) - 90
+                            planeMarker.rotation = rotationAngle
+
                             if (t < 1.0) {
                                 // Post again 16ms later.
-                                handler.postDelayed(this, 16)
+                                handler.postDelayed(this, animationPeriod)
                             }
                         }
                     })
                 }
             }
         }
+    }
+
+    fun calculateBearing(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Float {
+        val sourceLatLng = LatLng(lat1, lng1)
+        val destinationLatLng = LatLng(lat2, lng2)
+        return SphericalUtil.computeHeading(sourceLatLng, destinationLatLng).toFloat()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
