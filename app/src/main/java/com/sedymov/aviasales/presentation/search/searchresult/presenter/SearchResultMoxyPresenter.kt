@@ -37,6 +37,8 @@ class SearchResultMoxyPresenter(
 
     override fun setPlaneMarker(lat: Double, lon: Double) = viewState.setPlaneMarker(lat, lon)
 
+    override fun setCameraAt(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>) = viewState.setCameraAt(firstPoint, secondPoint)
+
     fun moveBack() = getPresenter().moveBack()
 
     fun onMapReady() {

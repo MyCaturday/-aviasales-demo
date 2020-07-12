@@ -38,5 +38,7 @@ class SearchResultPresenter(
         mView.drawLine(startCityLocation, destinationCityLocation)
 
         mView.setPlaneMarker(mSelectedCities.first.location.lat, mSelectedCities.first.location.lon)
+
+        mView.setCameraAt(startCityLocation,destinationCityLocation)
     }
 }

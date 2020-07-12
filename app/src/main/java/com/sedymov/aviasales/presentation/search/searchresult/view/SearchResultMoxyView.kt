@@ -16,4 +16,7 @@ interface SearchResultMoxyView : BaseMoxyView {
 
     @AddToEndSingle
     fun setPlaneMarker(lat: Double, lon: Double)
+
+    @AddToEndSingle
+    fun setCameraAt(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>)
 }

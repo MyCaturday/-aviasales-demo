@@ -11,4 +11,7 @@ interface SearchResultView : BaseView {
     fun drawLine(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>)
 
     fun setPlaneMarker(lat: Double, lon: Double)
+
+    fun setCameraAt(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>)
+
 }

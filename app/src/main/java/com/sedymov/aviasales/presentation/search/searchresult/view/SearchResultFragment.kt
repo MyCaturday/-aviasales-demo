@@ -106,6 +106,18 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
         }
     }
 
+    override fun setCameraAt(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>) {
+
+        val builder = LatLngBounds.Builder()
+        builder.include(LatLng(firstPoint.first, firstPoint.second))
+        builder.include(LatLng(secondPoint.first, secondPoint.second))
+        val bounds = builder.build()
+
+        val cu = CameraUpdateFactory.newLatLngBounds(bounds, 0)
+
+        mGoogleMap?.moveCamera(cu)
+    }
+
     override fun drawLine(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>) {
 
         fun getLinePattern(): List<PatternItem> {
