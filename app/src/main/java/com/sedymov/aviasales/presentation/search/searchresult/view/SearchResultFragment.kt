@@ -105,13 +105,11 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
             val position = LatLng(lat, lon)
             cityMarkerView.setCityName(name)
-            val marker = googleMap.addMarker(
+            googleMap.addMarker(
                 MarkerOptions()
                     .position(position)
-                    .title(name)
                     .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(activity!!, cityMarkerView.rootView)))
             )
-            marker.showInfoWindow()
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(position))
         }
     }
