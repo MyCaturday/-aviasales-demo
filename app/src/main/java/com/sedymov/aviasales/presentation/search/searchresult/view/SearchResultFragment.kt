@@ -23,7 +23,9 @@ import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.di.ComponentStorage
 import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPressedListener
+import com.sedymov.aviasales.presentation.core.views.CityMarkerView
 import com.sedymov.aviasales.presentation.search.searchresult.presenter.SearchResultMoxyPresenter
+import com.sedymov.aviasales.utils.platform.createDrawableFromView
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -35,6 +37,8 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
     private var planeMarker: Marker? = null
     private var startLatLng: LatLng? = null
     private var destinationLatLng: LatLng? = null
+
+    private val cityMarkerView: CityMarkerView by lazy { CityMarkerView(activity!!) }
 
     @Inject
     internal lateinit var mLoggingInteractor: LoggingInteractor
@@ -100,7 +104,13 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
         mGoogleMap?.let { googleMap ->
 
             val position = LatLng(lat, lon)
-            val marker = googleMap.addMarker(MarkerOptions().position(position).title(name))
+            cityMarkerView.setCityName(name)
+            val marker = googleMap.addMarker(
+                MarkerOptions()
+                    .position(position)
+                    .title(name)
+                    .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(activity!!, cityMarkerView.rootView)))
+            )
             marker.showInfoWindow()
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(position))
         }

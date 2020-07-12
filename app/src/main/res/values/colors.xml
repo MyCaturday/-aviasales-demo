@@ -14,4 +14,6 @@
     <color name="search_field_background_unfocused">#ECECEC</color>
 
     <color name="colorBackground">#0095F9</color>
+
+    <color name="colorCityMarkerBackground">#DFAF3E</color>
 </resources>
