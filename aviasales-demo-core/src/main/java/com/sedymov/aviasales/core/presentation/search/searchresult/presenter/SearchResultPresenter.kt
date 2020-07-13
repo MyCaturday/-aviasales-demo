@@ -70,13 +70,16 @@ class SearchResultPresenter(
 
         mView.setCameraAt(startCityLocation,destinationCityLocation)
 
-        mTimerDisposable = timerObservable
-            .subscribeOn(mRxSchedulers.ioScheduler)
-            .doOnNext { pair -> if (pair.first == 0L) { initialTimeValue = pair.second } }
-            .map { pair -> pair.second }
-            .map { time -> onTimer(time) }
-            .observeOn(mRxSchedulers.mainThreadScheduler)
-            .subscribe(::onPlanePosition, ::onTimerError)
+        if (mTimerDisposable == null) {
+
+            mTimerDisposable = timerObservable
+                .subscribeOn(mRxSchedulers.ioScheduler)
+                .doOnNext { pair -> if (pair.first == 0L) { initialTimeValue = pair.second } }
+                .map { pair -> pair.second }
+                .map { time -> onTimer(time) }
+                .observeOn(mRxSchedulers.mainThreadScheduler)
+                .subscribe(::onPlanePosition, ::onTimerError)
+        }
     }
 
     private fun onTimer(timeMS: Long): PlanePosition {
