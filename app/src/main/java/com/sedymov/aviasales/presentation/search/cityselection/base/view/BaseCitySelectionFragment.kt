@@ -10,19 +10,13 @@ import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
-import com.sedymov.aviasales.core.presentation.search.cityselection.base.view.BaseCitySelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
-import com.sedymov.aviasales.di.ComponentStorage
 import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPressedListener
 import com.sedymov.aviasales.presentation.search.cityselection.adapters.CityAdapter
 import com.sedymov.aviasales.presentation.search.cityselection.base.presenter.BaseCitySelectionMoxyPresenter
-import com.sedymov.aviasales.presentation.search.cityselection.startcityselection.presenter.StartCitySelectionMoxyPresenter
-import com.sedymov.aviasales.presentation.search.cityselection.startcityselection.view.StartCitySelectionMoxyView
 import com.sedymov.aviasales.utils.platform.setAsAdapterFor
 import com.sedymov.aviasales.utils.platform.setVisible
 import kotlinx.android.synthetic.main.fragment_city_selection.*
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
 

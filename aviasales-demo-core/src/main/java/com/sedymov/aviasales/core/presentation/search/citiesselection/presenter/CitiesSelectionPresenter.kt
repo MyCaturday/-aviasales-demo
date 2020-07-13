@@ -6,11 +6,9 @@ import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
-import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
+import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.repositories.search.citiesselection.CitiesSelectionResourcesRepository
-import com.sedymov.aviasales.core.util.Empty
-import com.sedymov.aviasales.core.util.currentThreadName
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 

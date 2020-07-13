@@ -1,19 +1,14 @@
 package com.sedymov.aviasales.presentation.search.searchresult.view
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Interpolator
-import android.view.animation.LinearInterpolator
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.maps.android.SphericalUtil
 import com.sedymov.aviasales.R
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
@@ -138,20 +133,17 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
             return listOf(Gap(gapLengthPx), Dot())
         }
 
-        mGoogleMap?.let { googleMap ->
+        mGoogleMap?.addPolyline(
 
-            googleMap.addPolyline(
-
-                PolylineOptions()
-                    .add(
-                        LatLng(firstPoint.first, firstPoint.second),
-                        LatLng(secondPoint.first, secondPoint.second)
-                    )
-                    .geodesic(true)
-                    .jointType(JointType.ROUND)
-                    .pattern(getLinePattern())
-            )
-        }
+            PolylineOptions()
+                .add(
+                    LatLng(firstPoint.first, firstPoint.second),
+                    LatLng(secondPoint.first, secondPoint.second)
+                )
+                .geodesic(true)
+                .jointType(JointType.ROUND)
+                .pattern(getLinePattern())
+        )
     }
 
     override fun onCreateView(

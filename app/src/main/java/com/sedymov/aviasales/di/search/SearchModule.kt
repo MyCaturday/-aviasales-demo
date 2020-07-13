@@ -1,7 +1,6 @@
 package com.sedymov.aviasales.di.search
 
 import android.content.Context
-import android.view.animation.LinearInterpolator
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.mappers.search.cities.CityMapper
 import com.sedymov.aviasales.core.presentation.base.SphericalUtil

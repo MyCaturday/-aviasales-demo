@@ -8,10 +8,8 @@ import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.SphericalUtil
 import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
-import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.presentation.search.searchresult.view.SearchResultView
-import com.sedymov.aviasales.core.util.currentThreadName
 import com.sedymov.aviasales.core.util.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable

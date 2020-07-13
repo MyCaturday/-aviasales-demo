@@ -9,7 +9,6 @@ import com.sedymov.aviasales.core.presentation.base.SphericalUtil
 import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenter
 import com.sedymov.aviasales.core.presentation.base.view.BaseView
-import com.sedymov.aviasales.core.presentation.search.citiesselection.presenter.CitiesSelectionPresenter
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.presentation.search.searchresult.presenter.SearchResultPresenter
 import com.sedymov.aviasales.core.presentation.search.searchresult.view.SearchResultView

@@ -6,7 +6,6 @@ import com.sedymov.aviasales.presentation.search.cityselection.base.presenter.Ba
 import com.sedymov.aviasales.presentation.search.cityselection.base.view.BaseCitySelectionFragment
 import com.sedymov.aviasales.presentation.search.cityselection.base.view.BaseCitySelectionMoxyView
 import com.sedymov.aviasales.presentation.search.cityselection.destinationcityselection.presenter.DestinationCitySelectionMoxyPresenter
-import com.sedymov.aviasales.presentation.search.cityselection.startcityselection.presenter.StartCitySelectionMoxyPresenter
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
