@@ -48,6 +48,16 @@ abstract class BaseCitySelectionMoxyPresenter<V : BaseCitySelectionMoxyView>(
         getPresenter().onInputChanges(findViewListener)
     }
 
+    fun onEmptySearchInput(listener: Observable<Any>) {
+
+        getPresenter().onEmptySearchInput(listener)
+    }
+
+    fun onSearchCancelClicks(listener: Observable<Any>) {
+
+        getPresenter().onSearchCancelClicks(listener)
+    }
+
     fun onCitySelected(city: City) {
 
         getPresenter().onCitySelected(city)

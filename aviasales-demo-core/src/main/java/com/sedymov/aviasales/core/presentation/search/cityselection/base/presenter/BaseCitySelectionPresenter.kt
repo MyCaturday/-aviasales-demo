@@ -107,6 +107,20 @@ abstract class BaseCitySelectionPresenter<V: BaseCitySelectionView>(
         mLoadingDisposable = null
     }
 
+    fun onEmptySearchInput(listener: Observable<Any>) =
+        onEmptySearch(listener)
+
+    fun onSearchCancelClicks(listener: Observable<Any>) =
+        onEmptySearch(listener)
+
+    private inline fun onEmptySearch(listener: Observable<Any>) {
+
+        listener
+            .observeOn(mRxSchedulers.mainThreadScheduler)
+            .subscribe( { showCities(listOf()) }, ::onSearchInputFailure)
+            .unsubscribeOnDestroy()
+    }
+
     fun onCitySelected(city: City) {
 
         selectCity(city)

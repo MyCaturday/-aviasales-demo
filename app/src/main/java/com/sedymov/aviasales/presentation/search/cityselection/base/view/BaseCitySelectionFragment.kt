@@ -57,6 +57,8 @@ abstract class BaseCitySelectionFragment: BaseFragmentWithOnBackPressedListener(
         super.onResume()
 
         mPresenter.onInputChanges(citySearch.getInputListener())
+        mPresenter.onEmptySearchInput(citySearch.getEmptyInputListener())
+        mPresenter.onSearchCancelClicks(citySearch.getCancelListener())
     }
 
     override fun onBackPressed(): Boolean {
