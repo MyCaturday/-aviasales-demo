@@ -8,6 +8,7 @@ import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
+import com.sedymov.aviasales.core.repositories.search.citiesselection.CitiesSelectionResourcesRepository
 import com.sedymov.aviasales.core.util.Empty
 import com.sedymov.aviasales.core.util.currentThreadName
 import io.reactivex.Observable
@@ -16,6 +17,7 @@ import io.reactivex.rxkotlin.Observables
 class CitiesSelectionPresenter(
     loggingInteractor: LoggingInteractor,
     private val mSearchCitiesInteractor: SearchCitiesInteractor,
+    private val mCitiesSelectionResourcesRepository: CitiesSelectionResourcesRepository,
     private val mMessagingInteractor: MessagingInteractor,
     private val mSearchRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers
@@ -106,8 +108,16 @@ class CitiesSelectionPresenter(
 
     private fun onCitiesSelected(cities: Pair<City, City>) {
 
-        mSelectedCities = cities
-        mView.setSearchButtonEnabled(true)
+        if (cities.first == cities.second) {
+
+            mMessagingInteractor.showErrorMessage(mCitiesSelectionResourcesRepository.citiesAreIdenticalErrorText())
+            mView.setSearchButtonEnabled(false)
+
+        } else {
+
+            mSelectedCities = cities
+            mView.setSearchButtonEnabled(true)
+        }
     }
 
     private fun onCitiesSelectionFailure(t: Throwable) = handleUnknownError(t)

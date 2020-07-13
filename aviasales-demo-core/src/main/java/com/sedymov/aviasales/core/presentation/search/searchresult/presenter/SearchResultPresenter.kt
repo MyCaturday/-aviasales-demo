@@ -34,7 +34,7 @@ class SearchResultPresenter(
     private lateinit var startCityLocation: Pair<Double, Double>
     private lateinit var destinationCityLocation: Pair<Double, Double>
 
-    private val mDuration: Long = 6000
+    private val mDuration = 6000L
     private val mPeriod = 1000 / 60L
     private val timerObservable = Observable.interval(mPeriod, TimeUnit.MILLISECONDS)
         .map { Pair(it, System.currentTimeMillis()) }

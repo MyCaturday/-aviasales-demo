@@ -10,6 +10,7 @@ import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
+import com.sedymov.aviasales.core.repositories.search.citiesselection.CitiesSelectionResourcesRepository
 import com.sedymov.aviasales.di.ComponentStorage
 import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPressedListener
 import com.sedymov.aviasales.presentation.search.citiesselection.presenter.CitiesSelectionMoxyPresenter
@@ -28,6 +29,9 @@ class CitiesSelectionFragment: BaseFragmentWithOnBackPressedListener(), CitiesSe
     internal lateinit var mSearchCitiesInteractor: SearchCitiesInteractor
 
     @Inject
+    internal lateinit var mCitiesSelectionResourcesRepository: CitiesSelectionResourcesRepository
+
+    @Inject
     internal lateinit var mMessagingInteractor: MessagingInteractor
 
     @Inject
@@ -40,7 +44,7 @@ class CitiesSelectionFragment: BaseFragmentWithOnBackPressedListener(), CitiesSe
     internal lateinit var mPresenter: CitiesSelectionMoxyPresenter
 
     @ProvidePresenter
-    internal fun providePresenter(): CitiesSelectionMoxyPresenter = CitiesSelectionMoxyPresenter(mLoggingInteractor, mSearchCitiesInteractor, mMessagingInteractor, mSearchRouter, mRxSchedulers)
+    internal fun providePresenter(): CitiesSelectionMoxyPresenter = CitiesSelectionMoxyPresenter(mLoggingInteractor, mSearchCitiesInteractor, mCitiesSelectionResourcesRepository, mMessagingInteractor, mSearchRouter, mRxSchedulers)
 
     override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
 
