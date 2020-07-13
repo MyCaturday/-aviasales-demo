@@ -9,6 +9,7 @@ import com.sedymov.aviasales.core.presentation.base.view.BaseView
 import com.sedymov.aviasales.core.presentation.search.citiesselection.presenter.CitiesSelectionPresenter
 import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
+import com.sedymov.aviasales.core.repositories.search.citiesselection.CitiesSelectionResourcesRepository
 import com.sedymov.aviasales.presentation.base.presenter.BaseMoxyPresenter
 import com.sedymov.aviasales.presentation.search.citiesselection.view.CitiesSelectionMoxyView
 import io.reactivex.Observable
@@ -18,12 +19,13 @@ import moxy.InjectViewState
 class CitiesSelectionMoxyPresenter(
     private val mLoggingInteractor: LoggingInteractor,
     private val mSearchCitiesInteractor: SearchCitiesInteractor,
+    private val mCitiesSelectionResourcesRepository: CitiesSelectionResourcesRepository,
     private val mMessagingInteractor: MessagingInteractor,
     private val mRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers
 ): BaseMoxyPresenter<CitiesSelectionMoxyView>(), CitiesSelectionView {
 
-    override fun providePresenter() = CitiesSelectionPresenter(mLoggingInteractor, mSearchCitiesInteractor, mMessagingInteractor, mRouter, mRxSchedulers) as BasePresenter<BaseView>
+    override fun providePresenter() = CitiesSelectionPresenter(mLoggingInteractor, mSearchCitiesInteractor, mCitiesSelectionResourcesRepository, mMessagingInteractor, mRouter, mRxSchedulers) as BasePresenter<BaseView>
 
     private inline fun getPresenter() = mPresenter as CitiesSelectionPresenter
 

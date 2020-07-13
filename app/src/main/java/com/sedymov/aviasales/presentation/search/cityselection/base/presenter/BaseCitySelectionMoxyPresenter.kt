@@ -9,14 +9,10 @@ import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenter
 import com.sedymov.aviasales.core.presentation.base.view.BaseView
 import com.sedymov.aviasales.core.presentation.search.cityselection.base.presenter.BaseCitySelectionPresenter
 import com.sedymov.aviasales.core.presentation.search.cityselection.base.view.BaseCitySelectionView
-import com.sedymov.aviasales.core.presentation.search.cityselection.startcityselection.presenter.StartCitySelectionPresenter
-import com.sedymov.aviasales.core.presentation.search.cityselection.startcityselection.view.StartCitySelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.presentation.base.presenter.BaseMoxyPresenter
 import com.sedymov.aviasales.presentation.search.cityselection.base.view.BaseCitySelectionMoxyView
-import com.sedymov.aviasales.presentation.search.cityselection.startcityselection.view.StartCitySelectionMoxyView
 import io.reactivex.Observable
-import moxy.InjectViewState
 
 abstract class BaseCitySelectionMoxyPresenter<V : BaseCitySelectionMoxyView>(
     private val loggingInteractor: LoggingInteractor,
@@ -46,6 +42,16 @@ abstract class BaseCitySelectionMoxyPresenter<V : BaseCitySelectionMoxyView>(
     fun onInputChanges(findViewListener: Observable<String>) {
 
         getPresenter().onInputChanges(findViewListener)
+    }
+
+    fun onEmptySearchInput(listener: Observable<Any>) {
+
+        getPresenter().onEmptySearchInput(listener)
+    }
+
+    fun onSearchCancelClicks(listener: Observable<Any>) {
+
+        getPresenter().onSearchCancelClicks(listener)
     }
 
     fun onCitySelected(city: City) {

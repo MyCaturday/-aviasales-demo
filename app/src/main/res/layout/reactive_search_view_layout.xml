@@ -15,13 +15,13 @@
             android:background="@drawable/search_field_background_selector"
             android:drawableStart="@drawable/ic_search_black_24dp"
             android:drawablePadding="8dp"
-            android:drawableTint="@color/text_hint"
+            android:drawableTint="@color/textHint"
             android:hint="@string/search"
             android:padding="5dp"
-            android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_hint"
+            android:textColor="@color/textPrimary"
+            android:textColorHint="@color/textHint"
             android:textSize="14dp"
-            app:drawableTint="@color/text_hint"
+            app:drawableTint="@color/textHint"
             android:singleLine="true"/>
 
 </RelativeLayout>

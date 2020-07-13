@@ -6,12 +6,17 @@
 
     <color name="white">@android:color/white</color>
 
-    <color name="text_hint">#7E8792</color>
+    <color name="textPrimary">#182C40</color>
+    <color name="textSecondary">#496885</color>
+    <color name="textHint">#7E8792</color>
 
-    <color name="text_primary">#182C40</color>
-    <color name="text_secondary">#496885</color>
+    <color name="searchFieldBackgroundUnfocused">#ECECEC</color>
 
-    <color name="search_field_background_unfocused">#ECECEC</color>
+    <color name="citiesSelectionBackground">#0095F9</color>
 
-    <color name="colorBackground">#0095F9</color>
+    <color name="cityMarkerBackground">#DFAF3E</color>
+
+    <color name="errorMessageBackground">#FF4100</color>
+
+    <color name="searchButtonBackground">#FFAA40</color>
 </resources>

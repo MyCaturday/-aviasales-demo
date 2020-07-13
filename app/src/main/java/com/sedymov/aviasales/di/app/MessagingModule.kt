@@ -1,8 +1,7 @@
 package com.sedymov.aviasales.di.app
 
-import android.content.Context
 import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
-import com.sedymov.aviasales.interactors.ToastMessagingInteractor
+import com.sedymov.aviasales.interactors.AlerterMessagingInteractor
 import dagger.Module
 import dagger.Provides
 
@@ -12,6 +11,6 @@ class MessagingModule {
 
     @Provides
     @PerApplication
-    internal fun messagingInteractor(context: Context): MessagingInteractor =
-        ToastMessagingInteractor(context)
+    internal fun messagingInteractor(): MessagingInteractor =
+        AlerterMessagingInteractor()
 }

@@ -21,7 +21,7 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorBackground"
+            android:background="@color/citiesSelectionBackground"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:expanded="true">
 
@@ -29,8 +29,8 @@
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorBackground"
-                app:contentScrim="@color/colorBackground"
+                android:background="@color/citiesSelectionBackground"
+                app:contentScrim="@color/citiesSelectionBackground"
                 app:scrimAnimationDuration="400"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
