@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/citiesSelectionBackground">
+    android:background="@color/citiesSelectionBackground"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -14,7 +15,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.3">
+        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintWidth_default="spread"
+        app:layout_constraintHeight_default="wrap">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/citiesBlock"
@@ -31,12 +34,18 @@
                     android:id="@+id/startCityButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_margin="8dp"
                     android:text="@string/start_city" />
 
                 <Button
                     android:id="@+id/destinationCityButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_margin="8dp"
                     android:text="@string/destination_city" />
 
             </LinearLayout>
@@ -47,7 +56,9 @@
             android:id="@+id/searchCitiesButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/white"
+            android:background="@color/searchButtonBackground"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_marginTop="16dp"
             android:text="@string/search_tickets"
             android:enabled="false" />
 

@@ -17,4 +17,6 @@
     <color name="cityMarkerBackground">#DFAF3E</color>
 
     <color name="errorMessageBackground">#FF4100</color>
+
+    <color name="searchButtonBackground">#FFAA40</color>
 </resources>
