@@ -6,19 +6,19 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 interface SearchResultMoxyView : BaseMoxyView {
 
     @AddToEndSingle
-    fun setMarkerAtStartCity(lat: Double, lon: Double, name: String)
+    fun setMarkerAtStartCity(point: Pair<Double, Double>, name: String)
 
     @AddToEndSingle
-    fun setMarkerAtDestinationCity(lat: Double, lon: Double, name: String)
+    fun setMarkerAtDestinationCity(point: Pair<Double, Double>, name: String)
 
     @AddToEndSingle
     fun drawLine(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>)
 
     @AddToEndSingle
-    fun setPlaneMarker(lat: Double, lon: Double)
+    fun setPlaneMarker(point: Pair<Double, Double>)
 
     @AddToEndSingle
-    fun setPlaneMarkerPosition(lat: Double, lon: Double)
+    fun setPlaneMarkerPosition(point: Pair<Double, Double>)
 
     @AddToEndSingle
     fun setPlaneMarkerRotation(rotation: Float)

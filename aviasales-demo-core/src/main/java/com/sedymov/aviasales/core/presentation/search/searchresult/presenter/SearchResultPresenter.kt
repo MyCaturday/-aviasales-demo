@@ -57,19 +57,12 @@ class SearchResultPresenter(
 
     fun onMapReady() {
 
-        with (mSelectedCities.first) {
-
-            mView.setMarkerAtStartCity(location.lat, location.lon, getVisibleName())
-        }
-
-        with (mSelectedCities.second) {
-
-            mView.setMarkerAtDestinationCity(location.lat, location.lon, getVisibleName())
-        }
+        mView.setMarkerAtStartCity(startCityLocation, mSelectedCities.first.getVisibleName())
+        mView.setMarkerAtDestinationCity(destinationCityLocation, mSelectedCities.second.getVisibleName())
 
         mView.drawLine(startCityLocation, destinationCityLocation)
 
-        mView.setPlaneMarker(mSelectedCities.first.location.lat, mSelectedCities.first.location.lon)
+        mView.setPlaneMarker(startCityLocation)
 
         mView.setCameraAt(startCityLocation, destinationCityLocation)
 
@@ -106,7 +99,7 @@ class SearchResultPresenter(
 
     private fun onPlanePosition(planePosition: PlanePosition) {
 
-        mView.setPlaneMarkerPosition(planePosition.position.first, planePosition.position.second)
+        mView.setPlaneMarkerPosition(Pair(planePosition.position.first, planePosition.position.second))
         mView.setPlaneMarkerRotation(planePosition.rotationAngle.toFloat())
     }
 

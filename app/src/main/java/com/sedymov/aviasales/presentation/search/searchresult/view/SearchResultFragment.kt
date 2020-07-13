@@ -27,6 +27,7 @@ import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPr
 import com.sedymov.aviasales.presentation.core.views.CityMarkerView
 import com.sedymov.aviasales.presentation.search.searchresult.presenter.SearchResultMoxyPresenter
 import com.sedymov.aviasales.utils.platform.createDrawableFromView
+import com.sedymov.aviasales.utils.platform.toLatLng
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -72,19 +73,19 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
     override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
 
-    override fun setMarkerAtStartCity(lat: Double, lon: Double, name: String) =
-        setMarkerAt(lat, lon, name)
+    override fun setMarkerAtStartCity(point: Pair<Double, Double>, name: String) =
+        setMarkerAt(point, name)
 
-    override fun setMarkerAtDestinationCity(lat: Double, lon: Double, name: String) =
-        setMarkerAt(lat, lon, name)
+    override fun setMarkerAtDestinationCity(point: Pair<Double, Double>, name: String) =
+        setMarkerAt(point, name)
 
-    override fun setPlaneMarker(lat: Double, lon: Double) {
+    override fun setPlaneMarker(point: Pair<Double, Double>) {
 
         mGoogleMap?.let { googleMap ->
 
             planeMarker = googleMap.addMarker(
                 MarkerOptions()
-                    .position(LatLng(lat, lon))
+                    .position(point.toLatLng())
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_plane))
                     .anchor(1.0f, 0.5f)
                     .flat(true)
@@ -92,9 +93,9 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
         }
     }
 
-    override fun setPlaneMarkerPosition(lat: Double, lon: Double) {
+    override fun setPlaneMarkerPosition(point: Pair<Double, Double>) {
 
-        planeMarker?.position = LatLng(lat, lon)
+        planeMarker?.position = point.toLatLng()
     }
 
     override fun setPlaneMarkerRotation(rotation: Float) {
@@ -102,11 +103,11 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
         planeMarker?.rotation = rotation
     }
 
-    private inline fun setMarkerAt(lat: Double, lon: Double, name: String) {
+    private inline fun setMarkerAt(point: Pair<Double, Double>, name: String) {
 
         mGoogleMap?.let { googleMap ->
 
-            val position = LatLng(lat, lon)
+            val position = point.toLatLng()
             cityMarkerView.setCityName(name)
             googleMap.addMarker(
                 MarkerOptions()

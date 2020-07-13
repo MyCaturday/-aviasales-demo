@@ -33,15 +33,15 @@ class SearchResultMoxyPresenter(
 
     private inline fun getPresenter() = mPresenter as SearchResultPresenter
 
-    override fun setMarkerAtStartCity(lat: Double, lon: Double, name: String) = viewState.setMarkerAtStartCity(lat, lon, name)
+    override fun setMarkerAtStartCity(point: Pair<Double, Double>, name: String) = viewState.setMarkerAtStartCity(point, name)
 
-    override fun setMarkerAtDestinationCity(lat: Double, lon: Double, name: String) = viewState.setMarkerAtDestinationCity(lat, lon, name)
+    override fun setMarkerAtDestinationCity(point: Pair<Double, Double>, name: String) = viewState.setMarkerAtDestinationCity(point, name)
 
     override fun drawLine(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>) = viewState.drawLine(firstPoint, secondPoint)
 
-    override fun setPlaneMarker(lat: Double, lon: Double) = viewState.setPlaneMarker(lat, lon)
+    override fun setPlaneMarker(point: Pair<Double, Double>) = viewState.setPlaneMarker(point)
 
-    override fun setPlaneMarkerPosition(lat: Double, lon: Double) = viewState.setPlaneMarkerPosition(lat, lon)
+    override fun setPlaneMarkerPosition(point: Pair<Double, Double>) = viewState.setPlaneMarkerPosition(point)
 
     override fun setPlaneMarkerRotation(rotation: Float) = viewState.setPlaneMarkerRotation(rotation)
 
