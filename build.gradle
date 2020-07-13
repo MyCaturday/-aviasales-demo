@@ -22,6 +22,7 @@ buildscript {
             cicerone_version : "5.1.1",
             maps_version     : "17.0.0",
             maps_utils_version: "2.0.3",
+            alerter_version: "6.1.0",
             junit_version    : "4.13",
             assertj_version  : "3.16.1",
             mockito_version  : "2.11.0"
@@ -69,6 +70,8 @@ buildscript {
 
     ext.maps = "com.google.android.gms:play-services-maps:$versions.maps_version"
     ext.mapsUtils = "com.google.maps.android:android-maps-utils:$versions.maps_utils_version"
+
+    ext.alerter = "com.tapadoo.android:alerter:$versions.alerter_version"
 
     ext.junit = [
 

@@ -87,6 +87,8 @@ dependencies {
     implementation maps
     implementation mapsUtils
 
+    implementation alerter
+
     implementation project(aviasales_demo_core)
 
     testImplementation junit.junit
