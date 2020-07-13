@@ -1,0 +1,14 @@
+apply plugin: 'kotlin'
+
+dependencies {
+
+    implementation kotlinStdlib
+
+    implementation rxjava2.rxjava
+    implementation rxjava2.rxkotlin
+
+    testImplementation junit.junit
+    testImplementation junit.assertJ
+
+    testImplementation mockito
+}

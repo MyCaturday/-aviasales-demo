@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">aviasales-demo</string>
+
+    <string name="search">Поиск</string>
+
+    <string name="start_city">Город отправления</string>
+    <string name="destination_city">Город назначения</string>
+
+    <string name="search_tickets">Найти билеты</string>
+
+    <string name="cities_are_identical_error_text">Ошибка: город отправление совпадает с городом назначения. Необходимо выбрать разные города.</string>
 </resources>

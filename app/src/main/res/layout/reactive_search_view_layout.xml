@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:animateLayoutChanges="true"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/search_view_height">
+
+        <com.sedymov.aviasales.presentation.core.views.LollipopDrawableTintEditText
+            android:id="@+id/etSearchField"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/search_view_height"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:background="@drawable/search_field_background_selector"
+            android:drawableStart="@drawable/ic_search_black_24dp"
+            android:drawablePadding="8dp"
+            android:drawableTint="@color/textHint"
+            android:hint="@string/search"
+            android:padding="5dp"
+            android:textColor="@color/textPrimary"
+            android:textColorHint="@color/textHint"
+            android:textSize="14dp"
+            app:drawableTint="@color/textHint"
+            android:singleLine="true"/>
+
+</RelativeLayout>
