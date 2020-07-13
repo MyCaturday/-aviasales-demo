@@ -80,8 +80,9 @@ abstract class BaseCitySelectionPresenter<V: BaseCitySelectionView>(
         mLoadingDisposable = Observable.timer(200L, TimeUnit.MILLISECONDS)
             .subscribeOn(mRxSchedulers.ioScheduler)
             .observeOn(mRxSchedulers.mainThreadScheduler)
-            .subscribe({
-                    mView.showLoading(true); log.v("ololo", "show")
+            .subscribe(
+                {
+                    mView.showLoading(true)
                 },
                 {
                     log.e(it)

@@ -1,9 +1,14 @@
 package com.sedymov.aviasales.di.search
 
+import android.view.animation.LinearInterpolator
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.mappers.search.cities.CityMapper
+import com.sedymov.aviasales.core.presentation.base.SphericalUtil
+import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
 import com.sedymov.aviasales.core.repositories.search.cities.SearchCitiesRepository
 import com.sedymov.aviasales.data.net.ApiClient
+import com.sedymov.aviasales.presentation.base.GoogleMapsSphericalUtil
+import com.sedymov.aviasales.presentation.base.LinearTimeInterpolator
 import com.sedymov.aviasales.repositories.search.cities.SearchCitiesRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -26,4 +31,12 @@ class SearchModule {
         SearchCitiesInteractor(
             searchCitiesRepository
         )
+
+    @Provides
+    @PerSearch
+    internal fun timeInterpolator(): TimeInterpolator = LinearTimeInterpolator()
+
+    @Provides
+    @PerSearch
+    internal fun sphericalUtil(): SphericalUtil = GoogleMapsSphericalUtil()
 }

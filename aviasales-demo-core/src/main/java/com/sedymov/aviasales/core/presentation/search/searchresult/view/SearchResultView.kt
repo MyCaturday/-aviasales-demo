@@ -12,6 +12,10 @@ interface SearchResultView : BaseView {
 
     fun setPlaneMarker(lat: Double, lon: Double)
 
+    fun setPlaneMarkerPosition(lat: Double, lon: Double)
+
+    fun setPlaneMarkerRotation(rotation: Float)
+
     fun setCameraAt(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>)
 
 }

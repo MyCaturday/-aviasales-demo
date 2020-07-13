@@ -18,5 +18,11 @@ interface SearchResultMoxyView : BaseMoxyView {
     fun setPlaneMarker(lat: Double, lon: Double)
 
     @AddToEndSingle
+    fun setPlaneMarkerPosition(lat: Double, lon: Double)
+
+    @AddToEndSingle
+    fun setPlaneMarkerRotation(rotation: Float)
+
+    @AddToEndSingle
     fun setCameraAt(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>)
 }
