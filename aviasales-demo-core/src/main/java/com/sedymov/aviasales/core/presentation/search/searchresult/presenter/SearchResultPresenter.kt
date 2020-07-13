@@ -52,16 +52,19 @@ class SearchResultPresenter(
         destinationCityLocation = Pair(mSelectedCities.second.location.lat, mSelectedCities.second.location.lon)
     }
 
+    private fun City.getVisibleName() =
+        iata.getOrNull(0) ?: city
+
     fun onMapReady() {
 
         with (mSelectedCities.first) {
 
-            mView.setMarkerAtStartCity(location.lat, location.lon, city)
+            mView.setMarkerAtStartCity(location.lat, location.lon, getVisibleName())
         }
 
         with (mSelectedCities.second) {
 
-            mView.setMarkerAtDestinationCity(location.lat, location.lon, city)
+            mView.setMarkerAtDestinationCity(location.lat, location.lon, getVisibleName())
         }
 
         mView.drawLine(startCityLocation, destinationCityLocation)
