@@ -11,6 +11,7 @@ import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithL
 import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.presentation.search.searchresult.view.SearchResultView
+import com.sedymov.aviasales.core.util.currentThreadName
 import com.sedymov.aviasales.core.util.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -27,6 +28,8 @@ class SearchResultPresenter(
     private val mSphericalUtil: SphericalUtil,
     private val mSelectedCities: Pair<City, City>
 ) : BasePresenterWithLogging<SearchResultView>(loggingInteractor){
+
+    private class PlanePosition(val position: Pair<Double, Double>, val rotationAngle: Double)
 
     private lateinit var startCityLocation: Pair<Double, Double>
     private lateinit var destinationCityLocation: Pair<Double, Double>
@@ -69,28 +72,35 @@ class SearchResultPresenter(
 
         mTimerDisposable = timerObservable
             .subscribeOn(mRxSchedulers.ioScheduler)
-            .observeOn(mRxSchedulers.mainThreadScheduler)
             .doOnNext { pair -> if (pair.first == 0L) { initialTimeValue = pair.second } }
             .map { pair -> pair.second }
-            .subscribe(::onTimer, ::onTimerError)
+            .map { time -> onTimer(time) }
+            .observeOn(mRxSchedulers.mainThreadScheduler)
+            .subscribe(::onPlanePosition, ::onTimerError)
     }
 
-    private fun onTimer(timeMS: Long) {
-
+    private fun onTimer(timeMS: Long): PlanePosition {
+        
         val elapsed = timeMS - initialTimeValue
         val animationPercent = mTimeInterpolator.getInterpolation(elapsed.toFloat() / mDuration)
 
         val currentLatLng = mSphericalUtil.interpolate(startCityLocation, destinationCityLocation, animationPercent.toDouble())
-        mView.setPlaneMarkerPosition(currentLatLng.first, currentLatLng.second)
 
         val nextLatLng = mSphericalUtil.interpolate(startCityLocation, destinationCityLocation, animationPercent.toDouble() + mPeriod)
 
         val rotationAngle = mSphericalUtil.computeHeading(currentLatLng, nextLatLng) - 90
-        mView.setPlaneMarkerRotation(rotationAngle.toFloat())
 
         if (elapsed > mDuration) {
             unsubscribeTimer()
         }
+
+        return PlanePosition(currentLatLng, rotationAngle)
+    }
+
+    private fun onPlanePosition(planePosition: PlanePosition) {
+
+        mView.setPlaneMarkerPosition(planePosition.position.first, planePosition.position.second)
+        mView.setPlaneMarkerRotation(planePosition.rotationAngle.toFloat())
     }
 
     private fun onTimerError(t: Throwable) {

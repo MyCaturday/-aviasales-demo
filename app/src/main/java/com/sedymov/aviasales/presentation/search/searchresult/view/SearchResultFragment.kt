@@ -152,7 +152,7 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
             )
         }
     }
-    
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
