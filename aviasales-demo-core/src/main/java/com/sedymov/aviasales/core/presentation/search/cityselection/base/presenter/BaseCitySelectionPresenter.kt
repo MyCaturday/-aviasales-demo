@@ -8,9 +8,13 @@ import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
 import com.sedymov.aviasales.core.presentation.search.cityselection.base.view.BaseCitySelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
+import com.sedymov.aviasales.core.util.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.disposables.Disposable
+import io.reactivex.exceptions.Exceptions
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 abstract class BaseCitySelectionPresenter<V: BaseCitySelectionView>(
     loggingInteractor: LoggingInteractor,
@@ -20,18 +24,20 @@ abstract class BaseCitySelectionPresenter<V: BaseCitySelectionView>(
     private val mRxSchedulers: RxSchedulers
 ) : BasePresenterWithLogging<V>(loggingInteractor) {
 
+    private var mLoadingDisposable: Disposable? = null
+
     fun moveBack() = mSearchRouter.moveBack()
 
     fun onInputChanges(findViewListener: Observable<String>) {
 
         findViewListener
             .observeOn(mRxSchedulers.mainThreadScheduler)
-            .doOnNext { mView.showLoading(true) }
+            .doOnNext { showLoadingWithDelay() }
             .observeOn(mRxSchedulers.ioScheduler)
             .switchMapSingle { handleInterruptedException(it) }
             .observeOn(mRxSchedulers.mainThreadScheduler)
-            .doOnError { mView.showLoading(false) }
-            .doAfterNext { mView.showLoading(false) }
+            .doOnError { hideLoading() }
+            .doAfterNext { hideLoading() }
             .subscribe(::onSearchInput, ::onSearchInputFailure )
             .unsubscribeOnDestroy()
     }
@@ -65,6 +71,39 @@ abstract class BaseCitySelectionPresenter<V: BaseCitySelectionView>(
     private fun showCities(cities: List<City>) {
 
         mView.showCities(cities)
+    }
+
+    private fun showLoadingWithDelay() {
+
+        unsubscribeLoading()
+
+        mLoadingDisposable = Observable.timer(200L, TimeUnit.MILLISECONDS)
+            .subscribeOn(mRxSchedulers.ioScheduler)
+            .observeOn(mRxSchedulers.mainThreadScheduler)
+            .subscribe({
+                    mView.showLoading(true); log.v("ololo", "show")
+                },
+                {
+                    log.e(it)
+                }
+            )
+    }
+
+    private fun hideLoading() {
+
+        unsubscribeLoading()
+        mView.showLoading(false)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unsubscribeLoading()
+    }
+
+    private fun unsubscribeLoading() {
+
+        mLoadingDisposable.unsubscribe { log.e(it); Exceptions.throwIfFatal(it) }
+        mLoadingDisposable = null
     }
 
     fun onCitySelected(city: City) {
