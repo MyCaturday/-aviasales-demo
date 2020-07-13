@@ -80,13 +80,14 @@ class SearchResultPresenter(
     }
 
     private fun onTimer(timeMS: Long): PlanePosition {
-        
+
         val elapsed = timeMS - initialTimeValue
         val animationPercent = mTimeInterpolator.getInterpolation(elapsed.toFloat() / mDuration)
 
         val currentLatLng = mSphericalUtil.interpolate(startCityLocation, destinationCityLocation, animationPercent.toDouble())
 
-        val nextLatLng = mSphericalUtil.interpolate(startCityLocation, destinationCityLocation, animationPercent.toDouble() + mPeriod)
+        val nextAnimationPercent = mTimeInterpolator.getInterpolation((elapsed.toFloat() + mPeriod) / mDuration)
+        val nextLatLng = mSphericalUtil.interpolate(startCityLocation, destinationCityLocation, nextAnimationPercent.toDouble())
 
         val rotationAngle = mSphericalUtil.computeHeading(currentLatLng, nextLatLng) - 90
 
