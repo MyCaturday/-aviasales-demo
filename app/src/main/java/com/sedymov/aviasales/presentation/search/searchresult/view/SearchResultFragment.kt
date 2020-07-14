@@ -116,8 +116,8 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
     override fun setCameraAt(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>) {
 
         val builder = LatLngBounds.Builder()
-        builder.include(LatLng(firstPoint.first, firstPoint.second))
-        builder.include(LatLng(secondPoint.first, secondPoint.second))
+        builder.include(firstPoint.toLatLng())
+        builder.include(secondPoint.toLatLng())
         val bounds = builder.build()
 
         val cu = CameraUpdateFactory.newLatLngBounds(bounds, 0)
@@ -137,8 +137,8 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
             PolylineOptions()
                 .add(
-                    LatLng(firstPoint.first, firstPoint.second),
-                    LatLng(secondPoint.first, secondPoint.second)
+                    firstPoint.toLatLng(),
+                    secondPoint.toLatLng()
                 )
                 .geodesic(true)
                 .jointType(JointType.ROUND)

@@ -2,6 +2,7 @@ package com.sedymov.aviasales.presentation.base
 
 import com.google.android.gms.maps.model.LatLng
 import com.sedymov.aviasales.core.presentation.base.SphericalUtil
+import com.sedymov.aviasales.utils.platform.toLatLng
 
 class GoogleMapsSphericalUtil : SphericalUtil {
 
@@ -16,8 +17,8 @@ class GoogleMapsSphericalUtil : SphericalUtil {
 
     override fun computeHeading(from: Pair<Double, Double>, to: Pair<Double, Double>): Double {
 
-        val sourceLatLng = LatLng(from.first, from.second)
-        val destinationLatLng = LatLng(to.first, to.second)
+        val sourceLatLng = from.toLatLng()
+        val destinationLatLng = to.toLatLng()
         return com.google.maps.android.SphericalUtil.computeHeading(sourceLatLng, destinationLatLng)
     }
 }
