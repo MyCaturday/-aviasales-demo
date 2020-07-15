@@ -32,9 +32,7 @@ class SearchResultPresenter(
     private lateinit var mStartCityLocation: Pair<Double, Double>
     private lateinit var mDestinationCityLocation: Pair<Double, Double>
 
-    private val mDuration = 6000L
-    private val mPeriod = 1000 / 60L
-    private val mTimerObservable = Observable.interval(mPeriod, TimeUnit.MILLISECONDS)
+    private val mTimerObservable = Observable.interval(ANIMATION_PERIOD, TimeUnit.MILLISECONDS)
         .map { Pair(it, System.currentTimeMillis()) }
 
     private var mTimerDisposable: Disposable? = null
@@ -79,16 +77,16 @@ class SearchResultPresenter(
     private fun onTimer(timeMS: Long): PlanePosition {
 
         val elapsedTime = timeMS - initialTimeValue
-        val animationPercent = mTimeInterpolator.getInterpolation(elapsedTime.toFloat() / mDuration)
+        val animationPercent = mTimeInterpolator.getInterpolation(elapsedTime.toFloat() / ANIMATION_LENGTH)
 
         val currentLatLng = mSphericalUtil.interpolate(mStartCityLocation, mDestinationCityLocation, animationPercent.toDouble())
 
-        val nextAnimationPercent = mTimeInterpolator.getInterpolation((elapsedTime.toFloat() + mPeriod) / mDuration)
+        val nextAnimationPercent = mTimeInterpolator.getInterpolation((elapsedTime.toFloat() + ANIMATION_PERIOD) / ANIMATION_LENGTH)
         val nextLatLng = mSphericalUtil.interpolate(mStartCityLocation, mDestinationCityLocation, nextAnimationPercent.toDouble())
 
         val rotationAngle = mSphericalUtil.computeHeading(currentLatLng, nextLatLng) + PLANE_SPRITE_ANGLE_TO_NORTH
 
-        if (elapsedTime > mDuration) {
+        if (elapsedTime > ANIMATION_LENGTH) {
             unsubscribeTimer()
         }
 
@@ -120,5 +118,8 @@ class SearchResultPresenter(
     private companion object {
 
         private const val PLANE_SPRITE_ANGLE_TO_NORTH = -90
+
+        private const val ANIMATION_LENGTH = 6000L
+        private const val ANIMATION_PERIOD = 1000 / 60L
     }
 }
