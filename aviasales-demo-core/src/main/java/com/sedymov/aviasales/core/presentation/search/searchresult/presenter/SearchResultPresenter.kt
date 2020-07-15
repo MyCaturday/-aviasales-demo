@@ -29,12 +29,12 @@ class SearchResultPresenter(
 
     private class PlanePosition(val position: Pair<Double, Double>, val rotationAngle: Double)
 
-    private lateinit var startCityLocation: Pair<Double, Double>
-    private lateinit var destinationCityLocation: Pair<Double, Double>
+    private lateinit var mStartCityLocation: Pair<Double, Double>
+    private lateinit var mDestinationCityLocation: Pair<Double, Double>
 
     private val mDuration = 6000L
     private val mPeriod = 1000 / 60L
-    private val timerObservable = Observable.interval(mPeriod, TimeUnit.MILLISECONDS)
+    private val mTimerObservable = Observable.interval(mPeriod, TimeUnit.MILLISECONDS)
         .map { Pair(it, System.currentTimeMillis()) }
 
     private var mTimerDisposable: Disposable? = null
@@ -46,8 +46,8 @@ class SearchResultPresenter(
     override fun onCreate() {
         super.onCreate()
 
-        startCityLocation = Pair(mSelectedCities.first.location.lat, mSelectedCities.first.location.lon)
-        destinationCityLocation = Pair(mSelectedCities.second.location.lat, mSelectedCities.second.location.lon)
+        mStartCityLocation = Pair(mSelectedCities.first.location.lat, mSelectedCities.first.location.lon)
+        mDestinationCityLocation = Pair(mSelectedCities.second.location.lat, mSelectedCities.second.location.lon)
     }
 
     private fun City.getVisibleName() =
@@ -55,18 +55,18 @@ class SearchResultPresenter(
 
     fun onMapReady() {
 
-        mView.setMarkerAtStartCity(startCityLocation, mSelectedCities.first.getVisibleName())
-        mView.setMarkerAtDestinationCity(destinationCityLocation, mSelectedCities.second.getVisibleName())
+        mView.setMarkerAtStartCity(mStartCityLocation, mSelectedCities.first.getVisibleName())
+        mView.setMarkerAtDestinationCity(mDestinationCityLocation, mSelectedCities.second.getVisibleName())
 
-        mView.drawLine(startCityLocation, destinationCityLocation)
+        mView.drawLine(mStartCityLocation, mDestinationCityLocation)
 
-        mView.setPlaneMarker(startCityLocation)
+        mView.setPlaneMarker(mStartCityLocation)
 
-        mView.setCameraAt(startCityLocation, destinationCityLocation)
+        mView.setCameraAt(mStartCityLocation, mDestinationCityLocation)
 
         if (mTimerDisposable == null) {
 
-            mTimerDisposable = timerObservable
+            mTimerDisposable = mTimerObservable
                 .subscribeOn(mRxSchedulers.ioScheduler)
                 .doOnNext { pair -> if (pair.first == 0L) { initialTimeValue = pair.second } }
                 .map { pair -> pair.second }
@@ -78,17 +78,17 @@ class SearchResultPresenter(
 
     private fun onTimer(timeMS: Long): PlanePosition {
 
-        val elapsed = timeMS - initialTimeValue
-        val animationPercent = mTimeInterpolator.getInterpolation(elapsed.toFloat() / mDuration)
+        val elapsedTime = timeMS - initialTimeValue
+        val animationPercent = mTimeInterpolator.getInterpolation(elapsedTime.toFloat() / mDuration)
 
-        val currentLatLng = mSphericalUtil.interpolate(startCityLocation, destinationCityLocation, animationPercent.toDouble())
+        val currentLatLng = mSphericalUtil.interpolate(mStartCityLocation, mDestinationCityLocation, animationPercent.toDouble())
 
-        val nextAnimationPercent = mTimeInterpolator.getInterpolation((elapsed.toFloat() + mPeriod) / mDuration)
-        val nextLatLng = mSphericalUtil.interpolate(startCityLocation, destinationCityLocation, nextAnimationPercent.toDouble())
+        val nextAnimationPercent = mTimeInterpolator.getInterpolation((elapsedTime.toFloat() + mPeriod) / mDuration)
+        val nextLatLng = mSphericalUtil.interpolate(mStartCityLocation, mDestinationCityLocation, nextAnimationPercent.toDouble())
 
-        val rotationAngle = mSphericalUtil.computeHeading(currentLatLng, nextLatLng) - 90
+        val rotationAngle = mSphericalUtil.computeHeading(currentLatLng, nextLatLng) + PLANE_SPRITE_ANGLE_TO_NORTH
 
-        if (elapsed > mDuration) {
+        if (elapsedTime > mDuration) {
             unsubscribeTimer()
         }
 
@@ -115,5 +115,10 @@ class SearchResultPresenter(
 
         mTimerDisposable.unsubscribe { log.e(it); Exceptions.throwIfFatal(it) }
         mTimerDisposable = null
+    }
+
+    private companion object {
+
+        private const val PLANE_SPRITE_ANGLE_TO_NORTH = -90
     }
 }
