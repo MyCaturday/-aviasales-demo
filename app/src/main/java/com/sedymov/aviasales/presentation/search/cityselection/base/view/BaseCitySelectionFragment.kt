@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import com.sedymov.aviasales.R
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
-import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
+import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithErrorMessageSupport
 import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPressedListener
 import com.sedymov.aviasales.presentation.search.cityselection.adapters.CityAdapter
 import com.sedymov.aviasales.presentation.search.cityselection.base.presenter.BaseCitySelectionMoxyPresenter
@@ -20,14 +20,11 @@ import kotlinx.android.synthetic.main.fragment_city_selection.*
 import javax.inject.Inject
 
 
-abstract class BaseCitySelectionFragment: BaseFragmentWithOnBackPressedListener(),
+abstract class BaseCitySelectionFragment: BaseFragmentWithErrorMessageSupport(),
     BaseCitySelectionMoxyView {
 
     @Inject
     internal lateinit var mLoggingInteractor: LoggingInteractor
-
-    @Inject
-    internal lateinit var mMessagingInteractor: MessagingInteractor
 
     @Inject
     internal lateinit var mSearchCitiesInteractor: SearchCitiesInteractor

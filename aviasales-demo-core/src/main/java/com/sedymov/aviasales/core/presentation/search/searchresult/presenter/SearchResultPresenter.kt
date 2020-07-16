@@ -2,7 +2,6 @@ package com.sedymov.aviasales.core.presentation.search.searchresult.presenter
 
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
-import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.SphericalUtil
@@ -19,7 +18,6 @@ import java.util.concurrent.TimeUnit
 class SearchResultPresenter(
     loggingInteractor: LoggingInteractor,
     private val mSearchCitiesInteractor: SearchCitiesInteractor,
-    private val mMessagingInteractor: MessagingInteractor,
     private val mSearchRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers,
     private val mTimeInterpolator: TimeInterpolator,

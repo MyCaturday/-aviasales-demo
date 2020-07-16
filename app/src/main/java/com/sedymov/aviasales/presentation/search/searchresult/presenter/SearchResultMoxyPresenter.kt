@@ -2,7 +2,6 @@ package com.sedymov.aviasales.presentation.search.searchresult.presenter
 
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
-import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.SphericalUtil
@@ -20,7 +19,6 @@ import moxy.InjectViewState
 class SearchResultMoxyPresenter(
     private val mLoggingInteractor: LoggingInteractor,
     private val mSearchCitiesInteractor: SearchCitiesInteractor,
-    private val mMessagingInteractor: MessagingInteractor,
     private val mRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers,
     private val mTimeInterpolator: TimeInterpolator,
@@ -28,7 +26,7 @@ class SearchResultMoxyPresenter(
     private val mSelectedCities: Pair<City, City>
 ): BaseMoxyPresenter<SearchResultMoxyView>(), SearchResultView {
 
-    override fun providePresenter(): BasePresenter<BaseView> = SearchResultPresenter(mLoggingInteractor, mSearchCitiesInteractor, mMessagingInteractor, mRouter, mRxSchedulers, mTimeInterpolator, mSphericalUtil, mSelectedCities) as BasePresenter<BaseView>
+    override fun providePresenter(): BasePresenter<BaseView> = SearchResultPresenter(mLoggingInteractor, mSearchCitiesInteractor, mRouter, mRxSchedulers, mTimeInterpolator, mSphericalUtil, mSelectedCities) as BasePresenter<BaseView>
 
     private inline fun getPresenter() = mPresenter as SearchResultPresenter
 

@@ -2,7 +2,6 @@ package com.sedymov.aviasales.presentation.search.citiesselection.presenter
 
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
-import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenter
 import com.sedymov.aviasales.core.presentation.base.view.BaseView
@@ -20,12 +19,11 @@ class CitiesSelectionMoxyPresenter(
     private val mLoggingInteractor: LoggingInteractor,
     private val mSearchCitiesInteractor: SearchCitiesInteractor,
     private val mCitiesSelectionResourcesRepository: CitiesSelectionResourcesRepository,
-    private val mMessagingInteractor: MessagingInteractor,
     private val mRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers
 ): BaseMoxyPresenter<CitiesSelectionMoxyView>(), CitiesSelectionView {
 
-    override fun providePresenter() = CitiesSelectionPresenter(mLoggingInteractor, mSearchCitiesInteractor, mCitiesSelectionResourcesRepository, mMessagingInteractor, mRouter, mRxSchedulers) as BasePresenter<BaseView>
+    override fun providePresenter() = CitiesSelectionPresenter(mLoggingInteractor, mSearchCitiesInteractor, mCitiesSelectionResourcesRepository, mRouter, mRxSchedulers) as BasePresenter<BaseView>
 
     private inline fun getPresenter() = mPresenter as CitiesSelectionPresenter
 
@@ -36,6 +34,8 @@ class CitiesSelectionMoxyPresenter(
     override fun setDestinationCityName(name: String) = viewState.setDestinationCityName(name)
 
     override fun setSearchButtonEnabled(isEnabled: Boolean) = viewState.setSearchButtonEnabled(isEnabled)
+
+    override fun showErrorMessage(message: String) = viewState.showErrorMessage(message)
 
     fun onStartCityButtonClicks(clicksListener: Observable<Any>) {
 
