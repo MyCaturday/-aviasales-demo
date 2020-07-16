@@ -15,6 +15,7 @@ abstract class BaseFragmentWithErrorMessageSupport : BaseFragmentWithOnBackPress
             Alerter.create(activity)
                 .setText(message)
                 .setBackgroundColorRes(R.color.errorMessageBackground)
+                .setIcon(R.drawable.ic_error)
                 .setDuration(ERROR_MESSAGE_DURATION)
                 .show()
 
