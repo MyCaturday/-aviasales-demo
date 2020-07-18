@@ -11,7 +11,7 @@ buildscript {
             rxbinding_version: "2.2.0",
             rxkotlin_version : "2.4.0",
             retrofit_version : '2.9.0',
-            okhttp_version   : '4.7.2',
+            okhttp_version   : '4.8.0',
             material_version : "1.1.0",
             appcompat_version: "1.1.0",
             recyclerview_version :'1.1.0',
