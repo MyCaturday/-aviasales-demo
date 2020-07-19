@@ -2,7 +2,6 @@ package com.sedymov.aviasales.core.presentation.search.citiesselection.presenter
 
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
-import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
@@ -16,7 +15,6 @@ class CitiesSelectionPresenter(
     loggingInteractor: LoggingInteractor,
     private val mSearchCitiesInteractor: SearchCitiesInteractor,
     private val mCitiesSelectionResourcesRepository: CitiesSelectionResourcesRepository,
-    private val mMessagingInteractor: MessagingInteractor,
     private val mSearchRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers
 ) : BasePresenterWithLogging<CitiesSelectionView>(loggingInteractor) {
@@ -108,7 +106,7 @@ class CitiesSelectionPresenter(
 
         if (cities.first == cities.second) {
 
-            mMessagingInteractor.showErrorMessage(mCitiesSelectionResourcesRepository.citiesAreIdenticalErrorText())
+            mView.showErrorMessage(mCitiesSelectionResourcesRepository.citiesAreIdenticalErrorText())
             mView.setSearchButtonEnabled(false)
 
         } else {
@@ -123,7 +121,7 @@ class CitiesSelectionPresenter(
     private fun handleUnknownError(t: Throwable) {
 
         log.e(t)
-        mMessagingInteractor.showErrorMessage(t.localizedMessage)
+        mView.showErrorMessage(t.localizedMessage)
         mView.setSearchButtonEnabled(false)
     }
 }

@@ -17,7 +17,7 @@ class DestinationCitySelectionFragment: BaseCitySelectionFragment(), Destination
     internal lateinit var mDestinationCitySelectionMoxyPresenter: DestinationCitySelectionMoxyPresenter
 
     @ProvidePresenter
-    internal fun providePresenter(): DestinationCitySelectionMoxyPresenter = DestinationCitySelectionMoxyPresenter(mLoggingInteractor, mSearchCitiesInteractor, mMessagingInteractor, mSearchRouter, mRxSchedulers)
+    internal fun providePresenter(): DestinationCitySelectionMoxyPresenter = DestinationCitySelectionMoxyPresenter(mLoggingInteractor, mSearchCitiesInteractor, mSearchRouter, mRxSchedulers)
 
     override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
 

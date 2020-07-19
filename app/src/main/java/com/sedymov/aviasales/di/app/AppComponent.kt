@@ -9,7 +9,6 @@ import dagger.Component
     AppModule::class,
     ApiModule::class,
     LoggingModule::class,
-    MessagingModule::class,
     RxModule::class
 ])
 interface AppComponent {

@@ -2,7 +2,6 @@ package com.sedymov.aviasales.presentation.search.cityselection.base.presenter
 
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
-import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenter
@@ -17,16 +16,14 @@ import io.reactivex.Observable
 abstract class BaseCitySelectionMoxyPresenter<V : BaseCitySelectionMoxyView>(
     private val loggingInteractor: LoggingInteractor,
     private val mSearchCitiesInteractor: SearchCitiesInteractor,
-    private val mMessagingInteractor: MessagingInteractor,
     private val mSearchRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers
 ): BaseMoxyPresenter<V>(), BaseCitySelectionView {
 
-    override fun providePresenter(): BasePresenter<BaseView> = providePresenter(loggingInteractor, mSearchCitiesInteractor, mMessagingInteractor, mSearchRouter, mRxSchedulers)
+    override fun providePresenter(): BasePresenter<BaseView> = providePresenter(loggingInteractor, mSearchCitiesInteractor, mSearchRouter, mRxSchedulers)
 
     protected abstract fun providePresenter(loggingInteractor: LoggingInteractor,
                                             searchCitiesInteractor: SearchCitiesInteractor,
-                                            messagingInteractor: MessagingInteractor,
                                             searchRouter: SearchRouter,
                                             rxSchedulers: RxSchedulers) : BasePresenter<BaseView>
 
@@ -36,6 +33,8 @@ abstract class BaseCitySelectionMoxyPresenter<V : BaseCitySelectionMoxyView>(
     override fun showCities(cities: List<City>) = viewState.showCities(cities)
 
     override fun showLoading(show: Boolean) = viewState.showLoading(show)
+
+    override fun showErrorMessage(message: String) = viewState.showErrorMessage(message)
 
     fun moveBack() = getPresenter().moveBack()
 

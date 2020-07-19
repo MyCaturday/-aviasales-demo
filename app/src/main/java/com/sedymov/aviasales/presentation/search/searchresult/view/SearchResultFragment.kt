@@ -12,7 +12,6 @@ import com.google.android.gms.maps.model.*
 import com.sedymov.aviasales.R
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
-import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
@@ -42,9 +41,6 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
     internal lateinit var mSearchCitiesInteractor: SearchCitiesInteractor
 
     @Inject
-    internal lateinit var mMessagingInteractor: MessagingInteractor
-
-    @Inject
     internal lateinit var mSearchRouter: SearchRouter
 
     @Inject
@@ -61,7 +57,7 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
     @ProvidePresenter
     internal fun providePresenter(): SearchResultMoxyPresenter =
-        SearchResultMoxyPresenter(mLoggingInteractor, mSearchCitiesInteractor, mMessagingInteractor, mSearchRouter, mRxSchedulers, mTimeInterpolator, mSphericalUtil, getCitiesFromArgs())
+        SearchResultMoxyPresenter(mLoggingInteractor, mSearchCitiesInteractor, mSearchRouter, mRxSchedulers, mTimeInterpolator, mSphericalUtil, getCitiesFromArgs())
 
     private inline fun getCitiesFromArgs(): Pair<City, City> =
         arguments!!.getSerializable(CITIES_EXTRA) as Pair<City, City>
@@ -116,8 +112,8 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
     override fun setCameraAt(firstPoint: Pair<Double, Double>, secondPoint: Pair<Double, Double>) {
 
         val builder = LatLngBounds.Builder()
-        builder.include(LatLng(firstPoint.first, firstPoint.second))
-        builder.include(LatLng(secondPoint.first, secondPoint.second))
+        builder.include(firstPoint.toLatLng())
+        builder.include(secondPoint.toLatLng())
         val bounds = builder.build()
 
         val cu = CameraUpdateFactory.newLatLngBounds(bounds, 0)
@@ -137,8 +133,8 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
             PolylineOptions()
                 .add(
-                    LatLng(firstPoint.first, firstPoint.second),
-                    LatLng(secondPoint.first, secondPoint.second)
+                    firstPoint.toLatLng(),
+                    secondPoint.toLatLng()
                 )
                 .geodesic(true)
                 .jointType(JointType.ROUND)

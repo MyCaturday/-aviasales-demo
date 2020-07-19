@@ -2,7 +2,6 @@ package com.sedymov.aviasales.core.presentation.search.cityselection.base.presen
 
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
-import com.sedymov.aviasales.core.interactors.common.MessagingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
@@ -19,7 +18,6 @@ import java.util.concurrent.TimeUnit
 abstract class BaseCitySelectionPresenter<V: BaseCitySelectionView>(
     loggingInteractor: LoggingInteractor,
     protected val mSearchCitiesInteractor: SearchCitiesInteractor,
-    private val mMessagingInteractor: MessagingInteractor,
     private val mSearchRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers
 ) : BasePresenterWithLogging<V>(loggingInteractor) {
@@ -65,7 +63,7 @@ abstract class BaseCitySelectionPresenter<V: BaseCitySelectionView>(
     private fun onSearchInputFailure(t: Throwable) {
 
         log.e(t)
-        mMessagingInteractor.showErrorMessage(t.localizedMessage)
+        mView.showErrorMessage(t.localizedMessage)
     }
 
     private fun showCities(cities: List<City>) {
