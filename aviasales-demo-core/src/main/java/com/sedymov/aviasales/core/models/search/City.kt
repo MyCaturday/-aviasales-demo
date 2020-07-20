@@ -7,7 +7,3 @@ data class City(
     val iata: List<String>
 )
 
-data class Location(
-    val lat: Double,
-    val lon: Double
-)

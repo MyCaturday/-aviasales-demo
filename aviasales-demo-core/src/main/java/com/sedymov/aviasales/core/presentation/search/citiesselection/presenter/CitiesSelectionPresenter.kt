@@ -3,7 +3,10 @@ package com.sedymov.aviasales.core.presentation.search.citiesselection.presenter
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
+import com.sedymov.aviasales.core.mappers.search.cities.CityMapper
 import com.sedymov.aviasales.core.models.search.City
+import com.sedymov.aviasales.core.models.search.CityUiModel
+import com.sedymov.aviasales.core.models.search.SearchCitiesUiModel
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
 import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
@@ -16,6 +19,7 @@ import moxy.InjectViewState
 class CitiesSelectionPresenter(
     loggingInteractor: LoggingInteractor,
     private val mSearchCitiesInteractor: SearchCitiesInteractor,
+    private val mCityMapper: CityMapper,
     private val mCitiesSelectionResourcesRepository: CitiesSelectionResourcesRepository,
     private val mSearchRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers
@@ -80,7 +84,11 @@ class CitiesSelectionPresenter(
 
         mSelectedCities?.let { cities ->
 
-            mSearchRouter.moveToSearchResult(cities)
+            with (mCityMapper) {
+
+                val citiesUiModel = SearchCitiesUiModel(toUiModel(cities.first), toUiModel(cities.second))
+                mSearchRouter.moveToSearchResult(citiesUiModel)
+            }
 
         } ?: run {
 
