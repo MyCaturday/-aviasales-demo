@@ -1,8 +1,13 @@
 apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
 
 dependencies {
 
     implementation kotlinStdlib
+
+    implementation moxy.moxy
+    implementation moxy.androidx
+    kapt moxy.compiler
 
     implementation rxjava2.rxjava
     implementation rxjava2.rxkotlin
