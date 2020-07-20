@@ -5,6 +5,7 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="white">@android:color/white</color>
+    <color name="white_disabled_color">#979797</color>
 
     <color name="textPrimary">#182C40</color>
     <color name="textSecondary">#496885</color>

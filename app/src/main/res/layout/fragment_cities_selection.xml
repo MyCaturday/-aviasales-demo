@@ -60,6 +60,8 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:layout_marginTop="16dp"
             android:text="@string/search_tickets"
+            android:textColor="@color/white_control_color"
+            android:textStyle="bold"
             android:enabled="false" />
 
     </LinearLayout>
