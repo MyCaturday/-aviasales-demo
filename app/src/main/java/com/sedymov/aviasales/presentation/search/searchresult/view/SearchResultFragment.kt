@@ -14,6 +14,7 @@ import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
+import com.sedymov.aviasales.core.models.search.SearchCitiesUiModel
 import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.presentation.search.searchresult.presenter.SearchResultPresenter
@@ -60,8 +61,8 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
     internal fun providePresenter(): SearchResultPresenter =
         SearchResultPresenter(mLoggingInteractor, mSearchCitiesInteractor, mSearchRouter, mRxSchedulers, mTimeInterpolator, mSphericalUtil, getCitiesFromArgs())
 
-    private inline fun getCitiesFromArgs(): Pair<City, City> =
-        arguments!!.getSerializable(CITIES_EXTRA) as Pair<City, City>
+    private inline fun getCitiesFromArgs(): SearchCitiesUiModel =
+        arguments!!.getParcelable<SearchCitiesUiModel>(CITIES_EXTRA)!!
 
     override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
 
@@ -170,13 +171,13 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
     companion object {
 
-        fun newInstance(cities: Pair<City, City>): SearchResultFragment {
+        fun newInstance(cities: SearchCitiesUiModel): SearchResultFragment {
 
             return SearchResultFragment().apply {
 
                 arguments = Bundle().apply {
 
-                    putSerializable(CITIES_EXTRA, cities)
+                    putParcelable(CITIES_EXTRA, cities)
                 }
             }
         }

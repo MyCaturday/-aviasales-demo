@@ -4,6 +4,7 @@ import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
+import com.sedymov.aviasales.core.models.search.SearchCitiesUiModel
 import com.sedymov.aviasales.core.presentation.base.SphericalUtil
 import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
@@ -24,7 +25,7 @@ class SearchResultPresenter(
     private val mRxSchedulers: RxSchedulers,
     private val mTimeInterpolator: TimeInterpolator,
     private val mSphericalUtil: SphericalUtil,
-    private val mSelectedCities: Pair<City, City>
+    private val mSelectedCities: SearchCitiesUiModel
 ) : BasePresenterWithLogging<SearchResultView>(loggingInteractor){
 
     private class PlanePosition(val position: Pair<Double, Double>, val rotationAngle: Double)
@@ -44,8 +45,8 @@ class SearchResultPresenter(
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
-        mStartCityLocation = Pair(mSelectedCities.first.location.lat, mSelectedCities.first.location.lon)
-        mDestinationCityLocation = Pair(mSelectedCities.second.location.lat, mSelectedCities.second.location.lon)
+        mStartCityLocation = Pair(mSelectedCities.startCity.location.latitude, mSelectedCities.startCity.location.longitude)
+        mDestinationCityLocation = Pair(mSelectedCities.destinationCity.location.latitude, mSelectedCities.destinationCity.location.longitude)
     }
 
     private fun City.getVisibleName() =
@@ -53,8 +54,8 @@ class SearchResultPresenter(
 
     fun onMapReady() {
 
-        viewState.setMarkerAtStartCity(mStartCityLocation, mSelectedCities.first.getVisibleName())
-        viewState.setMarkerAtDestinationCity(mDestinationCityLocation, mSelectedCities.second.getVisibleName())
+        viewState.setMarkerAtStartCity(mStartCityLocation, mSelectedCities.startCity.airportName)
+        viewState.setMarkerAtDestinationCity(mDestinationCityLocation, mSelectedCities.destinationCity.airportName)
 
         viewState.drawLine(mStartCityLocation, mDestinationCityLocation)
 
