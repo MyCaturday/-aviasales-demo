@@ -1,6 +1,10 @@
 package com.sedymov.aviasales.core.presentation.base.view
 
-interface ViewWithErrorMessageSupport {
+import moxy.MvpView
+import moxy.viewstate.strategy.alias.OneExecution
 
+interface ViewWithErrorMessageSupport : MvpView {
+
+    @OneExecution
     fun showErrorMessage(message: String)
 }

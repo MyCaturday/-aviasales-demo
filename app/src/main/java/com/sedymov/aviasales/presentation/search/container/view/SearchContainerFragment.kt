@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.sedymov.aviasales.R
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
+import com.sedymov.aviasales.core.presentation.search.container.presenter.SearchContainerPresenter
+import com.sedymov.aviasales.core.presentation.search.container.view.SearchContainerView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.di.ComponentStorage
 import com.sedymov.aviasales.di.search.SearchComponent.Companion.SEARCH_SCOPE
 import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPressedListener
-import com.sedymov.aviasales.presentation.search.container.presenter.SearchContainerMoxyPresenter
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.terrakok.cicerone.Navigator
@@ -19,7 +20,7 @@ import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import javax.inject.Inject
 import javax.inject.Named
 
-class SearchContainerFragment : BaseFragmentWithOnBackPressedListener(), SearchContainerMoxyView {
+class SearchContainerFragment : BaseFragmentWithOnBackPressedListener(), SearchContainerView {
 
     private val mNavigator: Navigator by lazy { SupportAppNavigator(activity!!, childFragmentManager, R.id.fragment_frame) }
 
@@ -34,10 +35,10 @@ class SearchContainerFragment : BaseFragmentWithOnBackPressedListener(), SearchC
     internal lateinit var mNavigatorHolder: NavigatorHolder
 
     @InjectPresenter
-    internal lateinit var mPresenter: SearchContainerMoxyPresenter
+    internal lateinit var mPresenter: SearchContainerPresenter
 
     @ProvidePresenter
-    internal fun providePresenter(): SearchContainerMoxyPresenter = SearchContainerMoxyPresenter(mLoggingInteractor, mSearchRouter)
+    internal fun providePresenter(): SearchContainerPresenter = SearchContainerPresenter(mLoggingInteractor, mSearchRouter)
 
     override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
 

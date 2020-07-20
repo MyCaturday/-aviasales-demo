@@ -10,7 +10,9 @@ import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.repositories.search.citiesselection.CitiesSelectionResourcesRepository
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import moxy.InjectViewState
 
+@InjectViewState
 class CitiesSelectionPresenter(
     loggingInteractor: LoggingInteractor,
     private val mSearchCitiesInteractor: SearchCitiesInteractor,
@@ -23,14 +25,14 @@ class CitiesSelectionPresenter(
 
     private var mSelectedCities: Pair<City, City>? = null
 
-    override fun onCreate() {
-        super.onCreate()
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
 
         onCitiesSelection(
             mSearchCitiesInteractor.onStartCitySelected()
-                .doOnNext { mView.setStartCityName(it.city) },
+                .doOnNext { viewState.setStartCityName(it.city) },
             mSearchCitiesInteractor.onDestinationCitySelected()
-                .doOnNext { mView.setDestinationCityName(it.city) }
+                .doOnNext { viewState.setDestinationCityName(it.city) }
         )
     }
 
@@ -82,7 +84,7 @@ class CitiesSelectionPresenter(
 
         } ?: run {
 
-            mView.setSearchButtonEnabled(false)
+            viewState.setSearchButtonEnabled(false)
         }
     }
 
@@ -106,13 +108,13 @@ class CitiesSelectionPresenter(
 
         if (cities.first == cities.second) {
 
-            mView.showErrorMessage(mCitiesSelectionResourcesRepository.citiesAreIdenticalErrorText())
-            mView.setSearchButtonEnabled(false)
+            viewState.showErrorMessage(mCitiesSelectionResourcesRepository.citiesAreIdenticalErrorText())
+            viewState.setSearchButtonEnabled(false)
 
         } else {
 
             mSelectedCities = cities
-            mView.setSearchButtonEnabled(true)
+            viewState.setSearchButtonEnabled(true)
         }
     }
 
@@ -121,7 +123,7 @@ class CitiesSelectionPresenter(
     private fun handleUnknownError(t: Throwable) {
 
         log.e(t)
-        mView.showErrorMessage(t.localizedMessage)
-        mView.setSearchButtonEnabled(false)
+        viewState.showErrorMessage(t.localizedMessage)
+        viewState.setSearchButtonEnabled(false)
     }
 }

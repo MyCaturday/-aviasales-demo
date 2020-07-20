@@ -63,12 +63,12 @@ abstract class BaseCitySelectionPresenter<V: BaseCitySelectionView>(
     private fun onSearchInputFailure(t: Throwable) {
 
         log.e(t)
-        mView.showErrorMessage(t.localizedMessage)
+        viewState.showErrorMessage(t.localizedMessage)
     }
 
     private fun showCities(cities: List<City>) {
 
-        mView.showCities(cities)
+        viewState.showCities(cities)
     }
 
     private fun showLoadingWithDelay() {
@@ -80,7 +80,7 @@ abstract class BaseCitySelectionPresenter<V: BaseCitySelectionView>(
             .observeOn(mRxSchedulers.mainThreadScheduler)
             .subscribe(
                 {
-                    mView.showLoading(true)
+                    viewState.showLoading(true)
                 },
                 {
                     log.e(it)
@@ -91,7 +91,7 @@ abstract class BaseCitySelectionPresenter<V: BaseCitySelectionView>(
     private fun hideLoading() {
 
         unsubscribeLoading()
-        mView.showLoading(false)
+        viewState.showLoading(false)
     }
 
     override fun onDestroy() {

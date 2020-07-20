@@ -13,8 +13,10 @@ import com.sedymov.aviasales.core.util.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.exceptions.Exceptions
+import moxy.InjectViewState
 import java.util.concurrent.TimeUnit
 
+@InjectViewState
 class SearchResultPresenter(
     loggingInteractor: LoggingInteractor,
     private val mSearchCitiesInteractor: SearchCitiesInteractor,
@@ -39,8 +41,8 @@ class SearchResultPresenter(
 
     fun moveBack() = mSearchRouter.moveBack()
 
-    override fun onCreate() {
-        super.onCreate()
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
 
         mStartCityLocation = Pair(mSelectedCities.first.location.lat, mSelectedCities.first.location.lon)
         mDestinationCityLocation = Pair(mSelectedCities.second.location.lat, mSelectedCities.second.location.lon)
@@ -51,14 +53,14 @@ class SearchResultPresenter(
 
     fun onMapReady() {
 
-        mView.setMarkerAtStartCity(mStartCityLocation, mSelectedCities.first.getVisibleName())
-        mView.setMarkerAtDestinationCity(mDestinationCityLocation, mSelectedCities.second.getVisibleName())
+        viewState.setMarkerAtStartCity(mStartCityLocation, mSelectedCities.first.getVisibleName())
+        viewState.setMarkerAtDestinationCity(mDestinationCityLocation, mSelectedCities.second.getVisibleName())
 
-        mView.drawLine(mStartCityLocation, mDestinationCityLocation)
+        viewState.drawLine(mStartCityLocation, mDestinationCityLocation)
 
-        mView.setPlaneMarker(mStartCityLocation)
+        viewState.setPlaneMarker(mStartCityLocation)
 
-        mView.setCameraAt(mStartCityLocation, mDestinationCityLocation)
+        viewState.setCameraAt(mStartCityLocation, mDestinationCityLocation)
 
         if (mTimerDisposable == null) {
 
@@ -93,8 +95,8 @@ class SearchResultPresenter(
 
     private fun onPlanePosition(planePosition: PlanePosition) {
 
-        mView.setPlaneMarkerPosition(Pair(planePosition.position.first, planePosition.position.second))
-        mView.setPlaneMarkerRotation(planePosition.rotationAngle.toFloat())
+        viewState.setPlaneMarkerPosition(Pair(planePosition.position.first, planePosition.position.second))
+        viewState.setPlaneMarkerRotation(planePosition.rotationAngle.toFloat())
     }
 
     private fun onTimerError(t: Throwable) {
