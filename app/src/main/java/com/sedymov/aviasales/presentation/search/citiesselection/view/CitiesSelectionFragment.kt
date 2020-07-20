@@ -8,24 +8,29 @@ import com.sedymov.aviasales.R
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
+import com.sedymov.aviasales.core.mappers.search.cities.CityMapper
+import com.sedymov.aviasales.core.presentation.search.citiesselection.presenter.CitiesSelectionPresenter
+import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.repositories.search.citiesselection.CitiesSelectionResourcesRepository
 import com.sedymov.aviasales.di.ComponentStorage
 import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithErrorMessageSupport
-import com.sedymov.aviasales.presentation.search.citiesselection.presenter.CitiesSelectionMoxyPresenter
 import com.sedymov.aviasales.utils.platform.safeClickListener
 import kotlinx.android.synthetic.main.fragment_cities_selection.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
-class CitiesSelectionFragment: BaseFragmentWithErrorMessageSupport(), CitiesSelectionMoxyView {
+class CitiesSelectionFragment: BaseFragmentWithErrorMessageSupport(), CitiesSelectionView {
 
     @Inject
     internal lateinit var mLoggingInteractor: LoggingInteractor
 
     @Inject
     internal lateinit var mSearchCitiesInteractor: SearchCitiesInteractor
+
+    @Inject
+    internal lateinit var mCityMapper: CityMapper
 
     @Inject
     internal lateinit var mCitiesSelectionResourcesRepository: CitiesSelectionResourcesRepository
@@ -37,10 +42,10 @@ class CitiesSelectionFragment: BaseFragmentWithErrorMessageSupport(), CitiesSele
     internal lateinit var mRxSchedulers: RxSchedulers
 
     @InjectPresenter
-    internal lateinit var mPresenter: CitiesSelectionMoxyPresenter
+    internal lateinit var mPresenter: CitiesSelectionPresenter
 
     @ProvidePresenter
-    internal fun providePresenter(): CitiesSelectionMoxyPresenter = CitiesSelectionMoxyPresenter(mLoggingInteractor, mSearchCitiesInteractor, mCitiesSelectionResourcesRepository, mSearchRouter, mRxSchedulers)
+    internal fun providePresenter(): CitiesSelectionPresenter = CitiesSelectionPresenter(mLoggingInteractor, mSearchCitiesInteractor, mCityMapper, mCitiesSelectionResourcesRepository, mSearchRouter, mRxSchedulers)
 
     override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
 

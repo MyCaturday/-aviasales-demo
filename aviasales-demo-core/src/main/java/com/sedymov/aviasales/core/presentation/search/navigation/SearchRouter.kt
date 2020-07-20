@@ -1,6 +1,6 @@
 package com.sedymov.aviasales.core.presentation.search.navigation
 
-import com.sedymov.aviasales.core.models.search.City
+import com.sedymov.aviasales.core.models.search.SearchCitiesUiModel
 
 interface SearchRouter {
 
@@ -12,5 +12,5 @@ interface SearchRouter {
 
     fun moveToDestinationCitySelectionScreen()
 
-    fun moveToSearchResult(cities: Pair<City, City>)
+    fun moveToSearchResult(cities: SearchCitiesUiModel)
 }

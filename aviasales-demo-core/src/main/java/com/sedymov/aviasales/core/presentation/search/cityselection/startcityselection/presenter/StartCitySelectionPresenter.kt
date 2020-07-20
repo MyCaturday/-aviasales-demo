@@ -7,7 +7,9 @@ import com.sedymov.aviasales.core.models.search.City
 import com.sedymov.aviasales.core.presentation.search.cityselection.base.presenter.BaseCitySelectionPresenter
 import com.sedymov.aviasales.core.presentation.search.cityselection.startcityselection.view.StartCitySelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
+import moxy.InjectViewState
 
+@InjectViewState
 class StartCitySelectionPresenter(
     loggingInteractor: LoggingInteractor,
     searchCitiesInteractor: SearchCitiesInteractor,

@@ -3,17 +3,23 @@ package com.sedymov.aviasales.core.presentation.search.citiesselection.presenter
 import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
+import com.sedymov.aviasales.core.mappers.search.cities.CityMapper
 import com.sedymov.aviasales.core.models.search.City
+import com.sedymov.aviasales.core.models.search.CityUiModel
+import com.sedymov.aviasales.core.models.search.SearchCitiesUiModel
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
 import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.repositories.search.citiesselection.CitiesSelectionResourcesRepository
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import moxy.InjectViewState
 
+@InjectViewState
 class CitiesSelectionPresenter(
     loggingInteractor: LoggingInteractor,
     private val mSearchCitiesInteractor: SearchCitiesInteractor,
+    private val mCityMapper: CityMapper,
     private val mCitiesSelectionResourcesRepository: CitiesSelectionResourcesRepository,
     private val mSearchRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers
@@ -23,14 +29,14 @@ class CitiesSelectionPresenter(
 
     private var mSelectedCities: Pair<City, City>? = null
 
-    override fun onCreate() {
-        super.onCreate()
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
 
         onCitiesSelection(
             mSearchCitiesInteractor.onStartCitySelected()
-                .doOnNext { mView.setStartCityName(it.city) },
+                .doOnNext { viewState.setStartCityName(it.city) },
             mSearchCitiesInteractor.onDestinationCitySelected()
-                .doOnNext { mView.setDestinationCityName(it.city) }
+                .doOnNext { viewState.setDestinationCityName(it.city) }
         )
     }
 
@@ -78,11 +84,15 @@ class CitiesSelectionPresenter(
 
         mSelectedCities?.let { cities ->
 
-            mSearchRouter.moveToSearchResult(cities)
+            with (mCityMapper) {
+
+                val citiesUiModel = SearchCitiesUiModel(toUiModel(cities.first), toUiModel(cities.second))
+                mSearchRouter.moveToSearchResult(citiesUiModel)
+            }
 
         } ?: run {
 
-            mView.setSearchButtonEnabled(false)
+            viewState.setSearchButtonEnabled(false)
         }
     }
 
@@ -106,13 +116,13 @@ class CitiesSelectionPresenter(
 
         if (cities.first == cities.second) {
 
-            mView.showErrorMessage(mCitiesSelectionResourcesRepository.citiesAreIdenticalErrorText())
-            mView.setSearchButtonEnabled(false)
+            viewState.showErrorMessage(mCitiesSelectionResourcesRepository.citiesAreIdenticalErrorText())
+            viewState.setSearchButtonEnabled(false)
 
         } else {
 
             mSelectedCities = cities
-            mView.setSearchButtonEnabled(true)
+            viewState.setSearchButtonEnabled(true)
         }
     }
 
@@ -121,7 +131,7 @@ class CitiesSelectionPresenter(
     private fun handleUnknownError(t: Throwable) {
 
         log.e(t)
-        mView.showErrorMessage(t.localizedMessage)
-        mView.setSearchButtonEnabled(false)
+        viewState.showErrorMessage(t.localizedMessage)
+        viewState.setSearchButtonEnabled(false)
     }
 }

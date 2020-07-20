@@ -14,12 +14,14 @@ import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
+import com.sedymov.aviasales.core.models.search.SearchCitiesUiModel
 import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
+import com.sedymov.aviasales.core.presentation.search.searchresult.presenter.SearchResultPresenter
+import com.sedymov.aviasales.core.presentation.search.searchresult.view.SearchResultView
 import com.sedymov.aviasales.di.ComponentStorage
 import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPressedListener
 import com.sedymov.aviasales.presentation.core.views.CityMarkerView
-import com.sedymov.aviasales.presentation.search.searchresult.presenter.SearchResultMoxyPresenter
 import com.sedymov.aviasales.utils.platform.createDrawableFromView
 import com.sedymov.aviasales.utils.platform.toLatLng
 import moxy.presenter.InjectPresenter
@@ -27,7 +29,7 @@ import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
 
-class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResultMoxyView {
+class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResultView {
 
     private var mGoogleMap: GoogleMap? = null
     private var planeMarker: Marker? = null
@@ -53,14 +55,14 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
     internal lateinit var mSphericalUtil: com.sedymov.aviasales.core.presentation.base.SphericalUtil
 
     @InjectPresenter
-    internal lateinit var mPresenter: SearchResultMoxyPresenter
+    internal lateinit var mPresenter: SearchResultPresenter
 
     @ProvidePresenter
-    internal fun providePresenter(): SearchResultMoxyPresenter =
-        SearchResultMoxyPresenter(mLoggingInteractor, mSearchCitiesInteractor, mSearchRouter, mRxSchedulers, mTimeInterpolator, mSphericalUtil, getCitiesFromArgs())
+    internal fun providePresenter(): SearchResultPresenter =
+        SearchResultPresenter(mLoggingInteractor, mSearchCitiesInteractor, mSearchRouter, mRxSchedulers, mTimeInterpolator, mSphericalUtil, getCitiesFromArgs())
 
-    private inline fun getCitiesFromArgs(): Pair<City, City> =
-        arguments!!.getSerializable(CITIES_EXTRA) as Pair<City, City>
+    private inline fun getCitiesFromArgs(): SearchCitiesUiModel =
+        arguments!!.getParcelable<SearchCitiesUiModel>(CITIES_EXTRA)!!
 
     override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
 
@@ -169,13 +171,13 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
     companion object {
 
-        fun newInstance(cities: Pair<City, City>): SearchResultFragment {
+        fun newInstance(cities: SearchCitiesUiModel): SearchResultFragment {
 
             return SearchResultFragment().apply {
 
                 arguments = Bundle().apply {
 
-                    putSerializable(CITIES_EXTRA, cities)
+                    putParcelable(CITIES_EXTRA, cities)
                 }
             }
         }

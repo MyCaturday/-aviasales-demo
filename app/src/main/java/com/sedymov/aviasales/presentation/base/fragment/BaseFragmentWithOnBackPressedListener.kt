@@ -8,7 +8,7 @@ abstract class BaseFragmentWithOnBackPressedListener : BaseFragment() {
 
         interface OnBackPressedListenerListener {
 
-            fun onBackPressed(): Boolean // return true if the listener handled the back press
+            fun onBackPressed(): Boolean // should return true if the listener handled the back press
         }
 
         fun setOnBackPressedListener(listener: OnBackPressedListenerListener?)

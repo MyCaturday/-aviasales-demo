@@ -1,3 +1,5 @@
 package com.sedymov.aviasales.core.presentation.base.view
 
-interface BaseView
+import moxy.MvpView
+
+interface BaseView : MvpView

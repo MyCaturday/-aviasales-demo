@@ -1,23 +1,24 @@
 package com.sedymov.aviasales.presentation.search.cityselection.startcityselection.view
 
 import android.os.Bundle
+import com.sedymov.aviasales.core.presentation.search.cityselection.base.presenter.BaseCitySelectionPresenter
+import com.sedymov.aviasales.core.presentation.search.cityselection.base.view.BaseCitySelectionView
+import com.sedymov.aviasales.core.presentation.search.cityselection.startcityselection.presenter.StartCitySelectionPresenter
+import com.sedymov.aviasales.core.presentation.search.cityselection.startcityselection.view.StartCitySelectionView
 import com.sedymov.aviasales.di.ComponentStorage
-import com.sedymov.aviasales.presentation.search.cityselection.base.presenter.BaseCitySelectionMoxyPresenter
 import com.sedymov.aviasales.presentation.search.cityselection.base.view.BaseCitySelectionFragment
-import com.sedymov.aviasales.presentation.search.cityselection.base.view.BaseCitySelectionMoxyView
-import com.sedymov.aviasales.presentation.search.cityselection.startcityselection.presenter.StartCitySelectionMoxyPresenter
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
-class StartCitySelectionFragment: BaseCitySelectionFragment(), StartCitySelectionMoxyView {
+class StartCitySelectionFragment: BaseCitySelectionFragment(), StartCitySelectionView {
 
-    override val mPresenter: BaseCitySelectionMoxyPresenter<BaseCitySelectionMoxyView> by lazy { mStartCitySelectionMoxyPresenter as BaseCitySelectionMoxyPresenter<BaseCitySelectionMoxyView> }
+    override val mPresenter: BaseCitySelectionPresenter<BaseCitySelectionView> by lazy { mStartCitySelectionMoxyPresenter as BaseCitySelectionPresenter<BaseCitySelectionView> }
 
     @InjectPresenter
-    internal lateinit var mStartCitySelectionMoxyPresenter: StartCitySelectionMoxyPresenter
+    internal lateinit var mStartCitySelectionMoxyPresenter: StartCitySelectionPresenter
 
     @ProvidePresenter
-    internal fun providePresenter(): StartCitySelectionMoxyPresenter = StartCitySelectionMoxyPresenter(mLoggingInteractor, mSearchCitiesInteractor, mSearchRouter, mRxSchedulers)
+    internal fun providePresenter(): StartCitySelectionPresenter = StartCitySelectionPresenter(mLoggingInteractor, mSearchCitiesInteractor, mSearchRouter, mRxSchedulers)
 
     override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
 

@@ -9,11 +9,11 @@ import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
+import com.sedymov.aviasales.core.presentation.search.cityselection.base.presenter.BaseCitySelectionPresenter
+import com.sedymov.aviasales.core.presentation.search.cityselection.base.view.BaseCitySelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithErrorMessageSupport
-import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPressedListener
 import com.sedymov.aviasales.presentation.search.cityselection.adapters.CityAdapter
-import com.sedymov.aviasales.presentation.search.cityselection.base.presenter.BaseCitySelectionMoxyPresenter
 import com.sedymov.aviasales.utils.platform.setAsAdapterFor
 import com.sedymov.aviasales.utils.platform.setVisible
 import kotlinx.android.synthetic.main.fragment_city_selection.*
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 
 abstract class BaseCitySelectionFragment: BaseFragmentWithErrorMessageSupport(),
-    BaseCitySelectionMoxyView {
+    BaseCitySelectionView {
 
     @Inject
     internal lateinit var mLoggingInteractor: LoggingInteractor
@@ -35,7 +35,7 @@ abstract class BaseCitySelectionFragment: BaseFragmentWithErrorMessageSupport(),
     @Inject
     internal lateinit var mSearchRouter: SearchRouter
 
-    protected abstract val mPresenter: BaseCitySelectionMoxyPresenter<BaseCitySelectionMoxyView>
+    protected abstract val mPresenter: BaseCitySelectionPresenter<BaseCitySelectionView>
 
     override fun onCreateView(
         inflater: LayoutInflater,
