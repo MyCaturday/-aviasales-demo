@@ -41,7 +41,8 @@ buildscript {
     ext.moxy = [
             moxy: "com.github.moxy-community:moxy:$versions.moxy_version",
             androidx: "com.github.moxy-community:moxy-androidx:$versions.moxy_version",
-            compiler: "com.github.moxy-community:moxy-compiler:$versions.moxy_version"
+            compiler: "com.github.moxy-community:moxy-compiler:$versions.moxy_version",
+            kotlinExtensions: "com.github.moxy-community:moxy-ktx:$versions.moxy_version"
     ]
 
     ext.rxjava2 = [
@@ -82,7 +83,7 @@ buildscript {
             assertJ: "org.assertj:assertj-core:$versions.assertj_version"
     ]
 
-    ext.mockito = "org.mockito:mockito-core:$versions.mockito_version"
+    ext.mockito = "org.mockito:mockito-inline:$versions.mockito_version"
 
     ext.aviasales_demo_core = ":aviasales-demo-core"
 
@@ -92,7 +93,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.0"
+        classpath 'com.android.tools.build:gradle:4.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong

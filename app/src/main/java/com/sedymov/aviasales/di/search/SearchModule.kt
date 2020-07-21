@@ -1,10 +1,20 @@
 package com.sedymov.aviasales.di.search
 
 import android.content.Context
+import com.sedymov.aviasales.core.executors.RxSchedulers
+import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.mappers.search.cities.CityMapper
 import com.sedymov.aviasales.core.presentation.base.SphericalUtil
 import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
+import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
+import com.sedymov.aviasales.core.presentation.search.citiesselection.presenter.CitiesSelectionPresenter
+import com.sedymov.aviasales.core.presentation.search.cityselection.destinationcityselection.presenter.DestinationCitySelectionPresenter
+import com.sedymov.aviasales.core.presentation.search.cityselection.startcityselection.presenter.StartCitySelectionPresenter
+import com.sedymov.aviasales.core.presentation.search.container.presenter.SearchContainerPresenter
+import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
+import com.sedymov.aviasales.core.presentation.search.searchresult.presenter.SearchResultPresenter
+import com.sedymov.aviasales.core.presentation.search.searchresult.view.SearchResultView
 import com.sedymov.aviasales.core.repositories.search.cities.SearchCitiesRepository
 import com.sedymov.aviasales.core.repositories.search.citiesselection.CitiesSelectionResourcesRepository
 import com.sedymov.aviasales.data.net.ApiClient
@@ -14,6 +24,7 @@ import com.sedymov.aviasales.repositories.search.cities.SearchCitiesRepositoryIm
 import com.sedymov.aviasales.repositories.search.citiesselection.CitiesSelectionResourcesRepositoryImpl
 import dagger.Module
 import dagger.Provides
+import moxy.presenter.ProvidePresenter
 
 @Module
 class SearchModule {
@@ -46,4 +57,51 @@ class SearchModule {
     @Provides
     @PerSearch
     internal fun sphericalUtil(): SphericalUtil = GoogleMapsSphericalUtil()
+
+    @Provides
+    @PerSearch
+    internal fun citiesSelectionPresenter(
+        loggingInteractor: LoggingInteractor,
+        searchCitiesInteractor: SearchCitiesInteractor,
+        cityMapper: CityMapper,
+        citiesSelectionResourcesRepository: CitiesSelectionResourcesRepository,
+        searchRouter: SearchRouter,
+        rxSchedulers: RxSchedulers
+    ) = CitiesSelectionPresenter(loggingInteractor, searchCitiesInteractor, cityMapper, citiesSelectionResourcesRepository, searchRouter, rxSchedulers)
+
+    @Provides
+    @PerSearch
+    internal fun destinationCitySelectionPresenter(
+        loggingInteractor: LoggingInteractor,
+        searchCitiesInteractor: SearchCitiesInteractor,
+        searchRouter: SearchRouter,
+        rxSchedulers: RxSchedulers
+    ) = DestinationCitySelectionPresenter(loggingInteractor, searchCitiesInteractor, searchRouter, rxSchedulers)
+
+    @Provides
+    @PerSearch
+    internal fun startCitySelectionPresenter(
+        loggingInteractor: LoggingInteractor,
+        searchCitiesInteractor: SearchCitiesInteractor,
+        searchRouter: SearchRouter,
+        rxSchedulers: RxSchedulers
+    ) = StartCitySelectionPresenter(loggingInteractor, searchCitiesInteractor, searchRouter, rxSchedulers)
+
+    @Provides
+    @PerSearch
+    internal fun searchContainerPresenter(
+        loggingInteractor: LoggingInteractor,
+        searchRouter: SearchRouter
+    ) = SearchContainerPresenter(loggingInteractor, searchRouter)
+
+    @Provides
+    @PerSearch
+    internal fun searchResultPresenter(
+        loggingInteractor: LoggingInteractor,
+        searchCitiesInteractor: SearchCitiesInteractor,
+        searchRouter: SearchRouter,
+        rxSchedulers: RxSchedulers,
+        timeInterpolator: TimeInterpolator,
+        sphericalUtil: SphericalUtil
+    ) = SearchResultPresenter(loggingInteractor, searchCitiesInteractor, searchRouter, rxSchedulers, timeInterpolator, sphericalUtil)
 }

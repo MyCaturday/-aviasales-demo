@@ -2,21 +2,19 @@ package com.sedymov.aviasales.presentation.main.view
 
 import android.os.Bundle
 import com.sedymov.aviasales.R
-import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
-import com.sedymov.aviasales.core.presentation.main.navigation.MainRouter
 import com.sedymov.aviasales.core.presentation.main.presenter.MainPresenter
 import com.sedymov.aviasales.core.presentation.main.view.MainView
 import com.sedymov.aviasales.di.ComponentStorage
 import com.sedymov.aviasales.di.main.MainComponent.Companion.MAIN_SCOPE
 import com.sedymov.aviasales.presentation.base.activity.BaseActivityWithOnBackPressedListener
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
+import moxy.ktx.moxyPresenter
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import javax.inject.Inject
 import javax.inject.Named
 
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
+import javax.inject.Provider
 
 
 class MainActivity : BaseActivityWithOnBackPressedListener(), MainView {
@@ -24,20 +22,13 @@ class MainActivity : BaseActivityWithOnBackPressedListener(), MainView {
     private val mNavigator: Navigator by lazy { SupportAppNavigator(this, R.id.fragment_frame) }
 
     @Inject
-    internal lateinit var mLoggingInteractor: LoggingInteractor
-
-    @Inject
-    internal lateinit var mRouter: MainRouter
-
-    @Inject
     @field:Named(MAIN_SCOPE)
     internal lateinit var mNavigatorHolder: NavigatorHolder
 
-    @InjectPresenter
-    internal lateinit var mPresenter: MainPresenter
+    @Inject
+    internal lateinit var mPresenterProvider: Provider<MainPresenter>
 
-    @ProvidePresenter
-    internal fun providePresenter(): MainPresenter = MainPresenter(mLoggingInteractor, mRouter)
+    private val mPresenter: MainPresenter by moxyPresenter { mPresenterProvider.get() }
 
     override fun inject() = ComponentStorage.getInstance().mainComponent.inject(this)
 

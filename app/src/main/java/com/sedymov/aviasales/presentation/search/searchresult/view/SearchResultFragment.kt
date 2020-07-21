@@ -10,26 +10,19 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.sedymov.aviasales.R
-import com.sedymov.aviasales.core.executors.RxSchedulers
-import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
-import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
-import com.sedymov.aviasales.core.models.search.City
-import com.sedymov.aviasales.core.models.search.SearchCitiesUiModel
-import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
-import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.presentation.search.searchresult.presenter.SearchResultPresenter
 import com.sedymov.aviasales.core.presentation.search.searchresult.view.SearchResultView
 import com.sedymov.aviasales.di.ComponentStorage
-import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPressedListener
+import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithErrorMessageSupport
 import com.sedymov.aviasales.presentation.core.views.CityMarkerView
 import com.sedymov.aviasales.utils.platform.createDrawableFromView
 import com.sedymov.aviasales.utils.platform.toLatLng
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
+import moxy.ktx.moxyPresenter
 import javax.inject.Inject
+import javax.inject.Provider
 
 
-class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResultView {
+class SearchResultFragment : BaseFragmentWithErrorMessageSupport(), SearchResultView {
 
     private var mGoogleMap: GoogleMap? = null
     private var planeMarker: Marker? = null
@@ -37,32 +30,9 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
     private val cityMarkerView: CityMarkerView by lazy { CityMarkerView(activity!!) }
 
     @Inject
-    internal lateinit var mLoggingInteractor: LoggingInteractor
+    internal lateinit var mPresenterProvider: Provider<SearchResultPresenter>
 
-    @Inject
-    internal lateinit var mSearchCitiesInteractor: SearchCitiesInteractor
-
-    @Inject
-    internal lateinit var mSearchRouter: SearchRouter
-
-    @Inject
-    internal lateinit var mRxSchedulers: RxSchedulers
-
-    @Inject
-    internal lateinit var mTimeInterpolator: TimeInterpolator
-
-    @Inject
-    internal lateinit var mSphericalUtil: com.sedymov.aviasales.core.presentation.base.SphericalUtil
-
-    @InjectPresenter
-    internal lateinit var mPresenter: SearchResultPresenter
-
-    @ProvidePresenter
-    internal fun providePresenter(): SearchResultPresenter =
-        SearchResultPresenter(mLoggingInteractor, mSearchCitiesInteractor, mSearchRouter, mRxSchedulers, mTimeInterpolator, mSphericalUtil, getCitiesFromArgs())
-
-    private inline fun getCitiesFromArgs(): SearchCitiesUiModel =
-        arguments!!.getParcelable<SearchCitiesUiModel>(CITIES_EXTRA)!!
+    private val mPresenter: SearchResultPresenter by moxyPresenter { mPresenterProvider.get() }
 
     override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
 
@@ -171,17 +141,9 @@ class SearchResultFragment : BaseFragmentWithOnBackPressedListener(), SearchResu
 
     companion object {
 
-        fun newInstance(cities: SearchCitiesUiModel): SearchResultFragment {
+        fun newInstance(): SearchResultFragment {
 
-            return SearchResultFragment().apply {
-
-                arguments = Bundle().apply {
-
-                    putParcelable(CITIES_EXTRA, cities)
-                }
-            }
+            return SearchResultFragment()
         }
-
-        private const val CITIES_EXTRA = "com.sedymov.aviasales.CITIES_EXTRA"
     }
 }

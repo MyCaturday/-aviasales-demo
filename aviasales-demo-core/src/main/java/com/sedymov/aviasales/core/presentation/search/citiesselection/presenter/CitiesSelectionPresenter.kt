@@ -5,8 +5,6 @@ import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.mappers.search.cities.CityMapper
 import com.sedymov.aviasales.core.models.search.City
-import com.sedymov.aviasales.core.models.search.CityUiModel
-import com.sedymov.aviasales.core.models.search.SearchCitiesUiModel
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
 import com.sedymov.aviasales.core.presentation.search.citiesselection.view.CitiesSelectionView
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
@@ -86,8 +84,7 @@ class CitiesSelectionPresenter(
 
             with (mCityMapper) {
 
-                val citiesUiModel = SearchCitiesUiModel(toUiModel(cities.first), toUiModel(cities.second))
-                mSearchRouter.moveToSearchResult(citiesUiModel)
+                mSearchRouter.moveToSearchResult()
             }
 
         } ?: run {
