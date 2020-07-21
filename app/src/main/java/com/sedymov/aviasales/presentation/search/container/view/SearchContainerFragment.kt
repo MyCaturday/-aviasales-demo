@@ -5,40 +5,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.sedymov.aviasales.R
-import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.presentation.search.container.presenter.SearchContainerPresenter
 import com.sedymov.aviasales.core.presentation.search.container.view.SearchContainerView
-import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.di.ComponentStorage
 import com.sedymov.aviasales.di.search.SearchComponent.Companion.SEARCH_SCOPE
 import com.sedymov.aviasales.presentation.base.fragment.BaseFragmentWithOnBackPressedListener
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
+import moxy.ktx.moxyPresenter
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import javax.inject.Inject
 import javax.inject.Named
+import javax.inject.Provider
 
 class SearchContainerFragment : BaseFragmentWithOnBackPressedListener(), SearchContainerView {
 
     private val mNavigator: Navigator by lazy { SupportAppNavigator(activity!!, childFragmentManager, R.id.fragment_frame) }
 
     @Inject
-    internal lateinit var mLoggingInteractor: LoggingInteractor
-
-    @Inject
-    internal lateinit var mSearchRouter: SearchRouter
-
-    @Inject
     @field:Named(SEARCH_SCOPE)
     internal lateinit var mNavigatorHolder: NavigatorHolder
 
-    @InjectPresenter
-    internal lateinit var mPresenter: SearchContainerPresenter
+    @Inject
+    internal lateinit var mPresenterProvider: Provider<SearchContainerPresenter>
 
-    @ProvidePresenter
-    internal fun providePresenter(): SearchContainerPresenter = SearchContainerPresenter(mLoggingInteractor, mSearchRouter)
+    private val mPresenter: SearchContainerPresenter by moxyPresenter { mPresenterProvider.get() }
 
     override fun inject() = ComponentStorage.getInstance().searchComponent.inject(this)
 
