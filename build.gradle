@@ -83,7 +83,7 @@ buildscript {
             assertJ: "org.assertj:assertj-core:$versions.assertj_version"
     ]
 
-    ext.mockito = "org.mockito:mockito-core:$versions.mockito_version"
+    ext.mockito = "org.mockito:mockito-inline:$versions.mockito_version"
 
     ext.aviasales_demo_core = ":aviasales-demo-core"
 
