@@ -4,7 +4,6 @@ import com.sedymov.aviasales.core.executors.RxSchedulers
 import com.sedymov.aviasales.core.interactors.common.LoggingInteractor
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City
-import com.sedymov.aviasales.core.models.search.SearchCitiesUiModel
 import com.sedymov.aviasales.core.presentation.base.SphericalUtil
 import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
 import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
@@ -14,6 +13,7 @@ import com.sedymov.aviasales.core.util.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.exceptions.Exceptions
+import io.reactivex.rxkotlin.Observables
 import moxy.InjectViewState
 import java.util.concurrent.TimeUnit
 
@@ -24,8 +24,7 @@ class SearchResultPresenter(
     private val mSearchRouter: SearchRouter,
     private val mRxSchedulers: RxSchedulers,
     private val mTimeInterpolator: TimeInterpolator,
-    private val mSphericalUtil: SphericalUtil,
-    private val mSelectedCities: SearchCitiesUiModel
+    private val mSphericalUtil: SphericalUtil
 ) : BasePresenterWithLogging<SearchResultView>(loggingInteractor){
 
     private class PlanePosition(val position: Pair<Double, Double>, val rotationAngle: Double)
@@ -42,20 +41,27 @@ class SearchResultPresenter(
 
     fun moveBack() = mSearchRouter.moveBack()
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-
-        mStartCityLocation = Pair(mSelectedCities.startCity.location.latitude, mSelectedCities.startCity.location.longitude)
-        mDestinationCityLocation = Pair(mSelectedCities.destinationCity.location.latitude, mSelectedCities.destinationCity.location.longitude)
-    }
-
-    private fun City.getVisibleName() =
-        iata.getOrNull(0) ?: city
-
     fun onMapReady() {
 
-        viewState.setMarkerAtStartCity(mStartCityLocation, mSelectedCities.startCity.airportName)
-        viewState.setMarkerAtDestinationCity(mDestinationCityLocation, mSelectedCities.destinationCity.airportName)
+        Observables.combineLatest(
+            mSearchCitiesInteractor.onStartCitySelected(),
+            mSearchCitiesInteractor.onDestinationCitySelected()
+        ) { startCity, destinationCity ->
+            Pair(startCity, destinationCity)
+        }
+            .subscribeOn(mRxSchedulers.ioScheduler)
+            .observeOn(mRxSchedulers.mainThreadScheduler)
+            .subscribe(::onMapReadyWithCities, ::onMapReadyWithCitiesFailure )
+            .unsubscribeOnDestroy()
+    }
+
+    private fun onMapReadyWithCities(cities: Pair<City, City>) {
+
+        mStartCityLocation = Pair(cities.first.location.lat, cities.first.location.lon)
+        mDestinationCityLocation = Pair(cities.second.location.lat, cities.second.location.lon)
+
+        viewState.setMarkerAtStartCity(mStartCityLocation, mSearchCitiesInteractor.getCityVisibleName(cities.first))
+        viewState.setMarkerAtDestinationCity(mDestinationCityLocation, mSearchCitiesInteractor.getCityVisibleName(cities.second))
 
         viewState.drawLine(mStartCityLocation, mDestinationCityLocation)
 
@@ -73,6 +79,12 @@ class SearchResultPresenter(
                 .observeOn(mRxSchedulers.mainThreadScheduler)
                 .subscribe(::onPlanePosition, ::onTimerError)
         }
+    }
+
+    private fun onMapReadyWithCitiesFailure(t: Throwable) {
+
+        log.e(t)
+        viewState.showErrorMessage(t.localizedMessage)
     }
 
     private fun onTimer(timeMS: Long): PlanePosition {
@@ -103,6 +115,7 @@ class SearchResultPresenter(
     private fun onTimerError(t: Throwable) {
 
         log.e(t)
+        viewState.showErrorMessage(t.localizedMessage)
     }
 
     override fun onDestroy() {

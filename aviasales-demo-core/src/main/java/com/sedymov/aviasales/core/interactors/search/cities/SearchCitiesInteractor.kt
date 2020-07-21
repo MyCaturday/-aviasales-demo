@@ -27,4 +27,7 @@ class SearchCitiesInteractor(
     fun onDestinationCitySelected(): Observable<City> = destinationCitySubject
 
     fun selectDestinationCity(city: City) = destinationCitySubject.onNext(city)
+
+    fun getCityVisibleName(city: City): String =
+        city.iata.getOrNull(0) ?: city.city
 }

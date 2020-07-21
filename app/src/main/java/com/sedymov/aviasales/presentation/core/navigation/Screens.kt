@@ -1,7 +1,5 @@
 package com.sedymov.aviasales.presentation.core.navigation
 
-import com.sedymov.aviasales.core.models.search.City
-import com.sedymov.aviasales.core.models.search.SearchCitiesUiModel
 import com.sedymov.aviasales.presentation.search.container.view.SearchContainerFragment
 import com.sedymov.aviasales.presentation.search.citiesselection.view.CitiesSelectionFragment
 import com.sedymov.aviasales.presentation.search.cityselection.destinationcityselection.view.DestinationCitySelectionFragment
@@ -31,8 +29,8 @@ object Screens {
         override fun getFragment() = DestinationCitySelectionFragment.newInstance()
     }
 
-    class SearchResultScreen(private val cities: SearchCitiesUiModel) : SupportAppScreen() {
+    class SearchResultScreen : SupportAppScreen() {
 
-        override fun getFragment() = SearchResultFragment.newInstance(cities)
+        override fun getFragment() = SearchResultFragment.newInstance()
     }
 }

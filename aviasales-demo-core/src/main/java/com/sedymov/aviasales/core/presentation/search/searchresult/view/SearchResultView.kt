@@ -1,9 +1,10 @@
 package com.sedymov.aviasales.core.presentation.search.searchresult.view
 
 import com.sedymov.aviasales.core.presentation.base.view.BaseView
+import com.sedymov.aviasales.core.presentation.base.view.ViewWithErrorMessageSupport
 import moxy.viewstate.strategy.alias.AddToEndSingle
 
-interface SearchResultView : BaseView {
+interface SearchResultView : BaseView, ViewWithErrorMessageSupport {
 
     @AddToEndSingle
     fun setMarkerAtStartCity(point: Pair<Double, Double>, name: String) // FYI: I don't like to use pairs here

@@ -7,11 +7,14 @@ import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteract
 import com.sedymov.aviasales.core.mappers.search.cities.CityMapper
 import com.sedymov.aviasales.core.presentation.base.SphericalUtil
 import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
+import com.sedymov.aviasales.core.presentation.base.presenter.BasePresenterWithLogging
 import com.sedymov.aviasales.core.presentation.search.citiesselection.presenter.CitiesSelectionPresenter
 import com.sedymov.aviasales.core.presentation.search.cityselection.destinationcityselection.presenter.DestinationCitySelectionPresenter
 import com.sedymov.aviasales.core.presentation.search.cityselection.startcityselection.presenter.StartCitySelectionPresenter
 import com.sedymov.aviasales.core.presentation.search.container.presenter.SearchContainerPresenter
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
+import com.sedymov.aviasales.core.presentation.search.searchresult.presenter.SearchResultPresenter
+import com.sedymov.aviasales.core.presentation.search.searchresult.view.SearchResultView
 import com.sedymov.aviasales.core.repositories.search.cities.SearchCitiesRepository
 import com.sedymov.aviasales.core.repositories.search.citiesselection.CitiesSelectionResourcesRepository
 import com.sedymov.aviasales.data.net.ApiClient
@@ -90,4 +93,15 @@ class SearchModule {
         loggingInteractor: LoggingInteractor,
         searchRouter: SearchRouter
     ) = SearchContainerPresenter(loggingInteractor, searchRouter)
+
+    @Provides
+    @PerSearch
+    internal fun searchResultPresenter(
+        loggingInteractor: LoggingInteractor,
+        searchCitiesInteractor: SearchCitiesInteractor,
+        searchRouter: SearchRouter,
+        rxSchedulers: RxSchedulers,
+        timeInterpolator: TimeInterpolator,
+        sphericalUtil: SphericalUtil
+    ) = SearchResultPresenter(loggingInteractor, searchCitiesInteractor, searchRouter, rxSchedulers, timeInterpolator, sphericalUtil)
 }
