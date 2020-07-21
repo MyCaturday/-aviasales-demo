@@ -1,4 +1,4 @@
-package com.sedymov.aviasales
+package com.sedymov.aviasales.interactors
 
 import com.sedymov.aviasales.core.interactors.search.cities.SearchCitiesInteractor
 import com.sedymov.aviasales.core.models.search.City

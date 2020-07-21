@@ -1,4 +1,4 @@
-package com.sedymov.aviasales
+package com.sedymov.aviasales.mappers
 
 import com.sedymov.aviasales.core.mappers.search.cities.CityMapper
 import com.sedymov.aviasales.core.models.search.CitiesResponse
