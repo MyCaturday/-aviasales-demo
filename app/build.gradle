@@ -62,6 +62,7 @@ dependencies {
 
     implementation moxy.moxy
     implementation moxy.androidx
+    implementation moxy.kotlinExtensions
     kapt moxy.compiler
 
     implementation rxjava2.rxjava

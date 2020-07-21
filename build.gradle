@@ -41,7 +41,8 @@ buildscript {
     ext.moxy = [
             moxy: "com.github.moxy-community:moxy:$versions.moxy_version",
             androidx: "com.github.moxy-community:moxy-androidx:$versions.moxy_version",
-            compiler: "com.github.moxy-community:moxy-compiler:$versions.moxy_version"
+            compiler: "com.github.moxy-community:moxy-compiler:$versions.moxy_version",
+            kotlinExtensions: "com.github.moxy-community:moxy-ktx:$versions.moxy_version"
     ]
 
     ext.rxjava2 = [
