@@ -8,6 +8,8 @@ import com.sedymov.aviasales.core.mappers.search.cities.CityMapper
 import com.sedymov.aviasales.core.presentation.base.SphericalUtil
 import com.sedymov.aviasales.core.presentation.base.TimeInterpolator
 import com.sedymov.aviasales.core.presentation.search.citiesselection.presenter.CitiesSelectionPresenter
+import com.sedymov.aviasales.core.presentation.search.cityselection.destinationcityselection.presenter.DestinationCitySelectionPresenter
+import com.sedymov.aviasales.core.presentation.search.cityselection.startcityselection.presenter.StartCitySelectionPresenter
 import com.sedymov.aviasales.core.presentation.search.navigation.SearchRouter
 import com.sedymov.aviasales.core.repositories.search.cities.SearchCitiesRepository
 import com.sedymov.aviasales.core.repositories.search.citiesselection.CitiesSelectionResourcesRepository
@@ -62,4 +64,22 @@ class SearchModule {
         searchRouter: SearchRouter,
         rxSchedulers: RxSchedulers
     ) = CitiesSelectionPresenter(loggingInteractor, searchCitiesInteractor, cityMapper, citiesSelectionResourcesRepository, searchRouter, rxSchedulers)
+
+    @Provides
+    @PerSearch
+    internal fun destinationCitySelectionPresenter(
+        loggingInteractor: LoggingInteractor,
+        searchCitiesInteractor: SearchCitiesInteractor,
+        searchRouter: SearchRouter,
+        rxSchedulers: RxSchedulers
+    ) = DestinationCitySelectionPresenter(loggingInteractor, searchCitiesInteractor, searchRouter, rxSchedulers)
+
+    @Provides
+    @PerSearch
+    internal fun startCitySelectionPresenter(
+        loggingInteractor: LoggingInteractor,
+        searchCitiesInteractor: SearchCitiesInteractor,
+        searchRouter: SearchRouter,
+        rxSchedulers: RxSchedulers
+    ) = StartCitySelectionPresenter(loggingInteractor, searchCitiesInteractor, searchRouter, rxSchedulers)
 }

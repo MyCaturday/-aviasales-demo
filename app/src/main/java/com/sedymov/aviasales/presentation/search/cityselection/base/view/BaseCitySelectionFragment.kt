@@ -23,18 +23,6 @@ import javax.inject.Inject
 abstract class BaseCitySelectionFragment: BaseFragmentWithErrorMessageSupport(),
     BaseCitySelectionView {
 
-    @Inject
-    internal lateinit var mLoggingInteractor: LoggingInteractor
-
-    @Inject
-    internal lateinit var mSearchCitiesInteractor: SearchCitiesInteractor
-
-    @Inject
-    internal lateinit var mRxSchedulers: RxSchedulers
-
-    @Inject
-    internal lateinit var mSearchRouter: SearchRouter
-
     protected abstract val mPresenter: BaseCitySelectionPresenter<BaseCitySelectionView>
 
     override fun onCreateView(
