@@ -19,7 +19,7 @@ import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 
 
-fun View.safeClickListener(): Observable<Any> = RxView.clicks(this).debounce(VIEW_CLICK_DELAY, TimeUnit.MILLISECONDS)
+fun View.safeClickListener(): Observable<Any> = RxView.clicks(this).throttleFirst(VIEW_CLICK_DELAY, TimeUnit.MILLISECONDS)
 
 fun ViewGroup.inflate(layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
